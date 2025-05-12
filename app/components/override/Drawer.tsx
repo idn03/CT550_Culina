@@ -12,8 +12,8 @@ import Row from '../reuse/Row';
 import TextBold from './../override/TextBold';
 
 import { useGlobalContext } from './../../utils/GlobalProvider';
-import { StackParamList } from './../../routes/StackNavigator';
-import { signOut } from './../../services/api/auth';
+import { StackParamList } from './../../navigate/StackNavigator';
+// import { signOut } from './../../services/api/auth';
 import { spacings } from '../../utils/CulinaStyles';
 import CulinaImgs from './../../assets/assets';
 
@@ -29,7 +29,10 @@ const CulinaDrawer = (props: any) => {
                 <DrawerItemList {...props}/>
             </View>
 
-            <Pressable onPress={() => signOut(setIsLoggedIn, setUser, navigation)} style={styles.footer}>
+            <Pressable 
+                // onPress={() => signOut(setIsLoggedIn, setUser, navigation)} 
+                style={styles.footer}
+            >
                 <Row style={{ alignSelf: 'center' }}>
                     <FontAwesome name="power-off" size={20} color="#E78F81" />
                     <TextBold style={{marginLeft: 6, color: '#E78F81', fontSize: 20}}>Log Out</TextBold>

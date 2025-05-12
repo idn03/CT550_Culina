@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import { CulinaFonts } from './assets/assets';
+import Router from './navigate/Router';
+import GlobalProvider from './utils/GlobalProvider';
 
 export default function App() {
     const [appIsReady, setAppIsReady] = useState(false);
@@ -19,18 +20,9 @@ export default function App() {
     if (!appIsReady) { return null; }
 
     return (
-        <View style={styles.container}>
-            <Text>Open up App.tsx to start working on your app!</Text>
-            <StatusBar style="auto" />
-        </View>
+        <GlobalProvider>
+            <StatusBar style="dark"/>
+            <Router />
+        </GlobalProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

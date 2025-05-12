@@ -1,14 +1,12 @@
 import React from 'react';
 import { View, StyleSheet } from "react-native";
-import { 
-    // Header, 
-    KuraleTitle, NormalText, TextBold } from "./../../components";
+import { Header, KuraleTitle, NormalText, TextBold } from "./../../components";
 import { shadow, spacings } from './../../utils/CulinaStyles';
 
 const AboutUsScreen = () => {
     return (
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-            {/* <Header>About Us</Header> */}
+            <Header>About Us</Header>
 
             <View style={[styles.main, shadow.boxShadow, spacings.m8]}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-evenly'}}>

@@ -18,7 +18,11 @@ import { shadow, spacings } from './../utils/CulinaStyles';
 import CulinaImgs from './../assets/assets';
 
 const LoginScreen = () => {
-
+    return (
+        <View>
+            <KuraleTitle>Hehe</KuraleTitle>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({

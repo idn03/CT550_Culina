@@ -1,13 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from "react-native";
-import { 
-    // Header, 
-    InriaTitle, NormalText } from "./../../components";
+import { Header, InriaTitle, NormalText } from "./../../components";
 
 const HelpScreen = () => {
     return (
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-            {/* <Header>Help</Header> */}
+            <Header>Help</Header>
 
             <View style={styles.main}>
                 <ScrollView style={{flex: 1, margin: 40}} showsVerticalScrollIndicator={false}>
