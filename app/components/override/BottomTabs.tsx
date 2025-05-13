@@ -48,7 +48,6 @@ const BottomTabs = ({ state, navigation }: any) => {
                 ...shadow.boxShadow, 
                 ...spacings.p3, 
                 ...spacings.ph5,
-
             }}>
                 {[
                     { 

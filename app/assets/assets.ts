@@ -2,6 +2,7 @@ import { useFonts } from 'expo-font';
 
 const CulinaImgs = {
     logo: require('./mainlogo.png'),
+    logoText: require('./logotext.png'),
     authBackground: require('./imgs/auth-bg.png'),
     circle: require('./imgs/eclipse.png'),
     layoutOne: require('./imgs/layout__1.png'),

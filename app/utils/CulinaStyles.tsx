@@ -24,7 +24,13 @@ export const spacings = StyleSheet.create({
 });
 
 export const shadow = StyleSheet.create({
-    boxShadow: { boxShadow: '0 2 4 0 rgba(0, 0, 0, 0.25)' },
+    boxShadow: { 
+        shadowColor: 'rgba(0, 0, 0, 0.25)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 4,
+    },
     textShadow: {
         textShadowColor: 'rgba(0, 0, 0, 0.25)', 
         textShadowOffset: { width: 0, height: 2 }, 

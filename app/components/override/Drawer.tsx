@@ -11,26 +11,28 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Row from '../reuse/Row';
 import TextBold from './../override/TextBold';
 
+// Other
+import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { useGlobalContext } from './../../utils/GlobalProvider';
 import { StackParamList } from './../../navigate/StackNavigator';
-// import { signOut } from './../../services/api/auth';
+import { signOut } from './../../services/api/auth';
 import { spacings } from '../../utils/CulinaStyles';
 import CulinaImgs from './../../assets/assets';
 
-const CulinaDrawer = (props: any) => {
+const CulinaDrawer = (props: DrawerContentComponentProps) => {
     const { setIsLoggedIn, setUser } = useGlobalContext();
     const navigation: NavigationProp<StackParamList> = useNavigation();
 
     return (
         <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
-            <Image source={CulinaImgs.logo} style={[styles.logo, spacings.mt10]}/>
+            <Image source={CulinaImgs.logoText} style={[styles.logo, spacings.mt8]}/>
 
-            <View style={spacings.mt10}>
+            <View style={spacings.mt8}>
                 <DrawerItemList {...props}/>
             </View>
 
             <Pressable 
-                // onPress={() => signOut(setIsLoggedIn, setUser, navigation)} 
+                onPress={() => signOut(setIsLoggedIn, setUser, navigation)} 
                 style={styles.footer}
             >
                 <Row style={{ alignSelf: 'center' }}>
@@ -44,8 +46,8 @@ const CulinaDrawer = (props: any) => {
 
 const styles = StyleSheet.create({
     logo: {
-        width: 40,
-        height: 40,
+        resizeMode: 'contain',
+        height: 48,
         alignSelf: 'center',
     },
     footer: {
