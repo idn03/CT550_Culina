@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { ReactNode } from 'react';
-// import { getCurrentUser } from '../services/api/auth';
+import { getCurrentUser } from './../services/api/auth';
 
 interface User {
     $id: string;
@@ -35,25 +35,25 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const triggerRefresh = () => setRefresh((prev) => !prev);
 
     useEffect(() => {
-        // getCurrentUser()
-        //     .then((res) => {
-        //         if (res) {
-        //             setUser({
-        //                 $id: res.$id,
-        //                 email: res.email,
-        //             });
-        //             setIsLoggedIn(true);
-        //         } else {
-        //             setIsLoggedIn(false);
-        //             setUser(null);
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //         setIsLoggedIn(false);
-        //         setUser(null);
-        //     })
-        //     .finally(() => setIsLoading(false));
+        getCurrentUser()
+            .then((res) => {
+                if (res) {
+                    setUser({
+                        $id: res.$id,
+                        email: res.email,
+                    });
+                    setIsLoggedIn(true);
+                } else {
+                    setIsLoggedIn(false);
+                    setUser(null);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                setIsLoggedIn(false);
+                setUser(null);
+            })
+            .finally(() => setIsLoading(false));
     }, []);
 
     return (
