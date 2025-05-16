@@ -35,7 +35,7 @@ import {
 // Other
 import { RouteProp } from '@react-navigation/native';
 import { StackParamList } from '../../../navigate/StackNavigator';
-// import { deleteRecipe } from '../../../services/api/recipes';
+import { deleteRecipe } from '../../../services/api/recipes';
 import { formatDate } from '../../../utils/Helper';
 
 type RecipeDetailScreenRouteProp = RouteProp<StackParamList, 'RecipeDetail'>;

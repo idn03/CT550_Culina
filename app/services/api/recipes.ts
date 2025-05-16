@@ -31,6 +31,16 @@ export interface RecipeScore {
     recipeScore: number;
 }
 
+export const dummyTopics = [
+    { seq: 1, title: 'Dessert', },
+    { seq: 2, title: 'Healthy', },
+    { seq: 3, title: 'Vegan', },
+    { seq: 4, title: 'Fast Food', },
+    { seq: 5, title: 'Soup', },
+    { seq: 6, title: 'Fruit', },
+    { seq: 7, title: 'Flavorful', }
+];
+
 const mapDocumentToRecipe = (doc: any): Recipe => ({
     $id: doc.$id,
     title: doc.title,

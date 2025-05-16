@@ -1,9 +1,21 @@
+// Hooks
 import {useState} from 'react';
-import { View, StyleSheet, TextInput, Pressable } from 'react-native';
+
+// Components
+import { 
+    View, 
+    StyleSheet, 
+    TextInput, 
+    Pressable, 
+    ScrollView, 
+    Animated 
+} from 'react-native';
 import Slider from '@react-native-community/slider';
-import Fontisto from '@expo/vector-icons/Fontisto';
 import Feather from '@expo/vector-icons/Feather';
-import { Row, NormalText } from './../../components';
+import { Row, NormalText, TextBold, TopicTag } from './../../components';
+
+// Other
+import { dummyTopics } from '../../services/api/recipes';
 import { spacings, shadow } from './../../utils/CulinaStyles';
 
 interface SearchBarProps {
@@ -13,7 +25,8 @@ interface SearchBarProps {
 const SearchBar = ({ onSearch }: SearchBarProps) => {
     const [query, setQuery] = useState('');
     const [score, setScore] = useState(5);
-
+    const [selectedTopic, setSelectedTopic] = useState<string[]>([]);
+    const [showAdvanced, setShowAdvanced] = useState(false);
     return (
         <View style={[styles.container, spacings.pb5]}>
             <Row style={{
@@ -40,32 +53,55 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
                 </Pressable>
 
                 <Pressable style={[spacings.pl2]} onPress={() => {
-
+                    setShowAdvanced(prev => !prev);
                 }}>
-                    <Fontisto name='more-v-a' size={24} color={'#333'} />
+                    <Feather name="more-vertical" size={24} color={'#333'} />
                 </Pressable>
             </Row>
 
-            <Row style={{
-                ...spacings.mt4,
-                ...spacings.mh8,
-                justifyContent: 'space-between',
-            }}>
-                <Slider
-                    style={{ width: 280, height: 40 }}
-                    minimumValue={0}
-                    maximumValue={10}
-                    step={0.1}
-                    minimumTrackTintColor="#FFCFB3"
-                    maximumTrackTintColor="#33333360"
-                    thumbTintColor="#FFCFB3"
-                    value={score}
-                    onValueChange={setScore}
-                />
-                <NormalText>{`${score.toFixed(1)}   /   10`}</NormalText>
-            </Row>
+            {/* Search Advance */}
+            {showAdvanced && (
+                <View style={[spacings.mh8, spacings.mt4]}>
+                    <TextBold style={{...spacings.mv2}}>Score</TextBold>
+                    <Row style={{justifyContent: 'space-between'}}>
+                        <Slider
+                            style={{ width: 280, height: 40 }}
+                            minimumValue={0}
+                            maximumValue={10}
+                            step={0.1}
+                            minimumTrackTintColor="#FFCFB3"
+                            maximumTrackTintColor="#33333360"
+                            thumbTintColor="#FFCFB3"
+                            value={score}
+                            onValueChange={setScore}
+                        />
+                        <NormalText>{`${score.toFixed(1)}   /   10`}</NormalText>
+                    </Row>
 
-            
+                    <TextBold style={{...spacings.mv2}}>Topics</TextBold>
+                    <ScrollView 
+                        horizontal 
+                        showsHorizontalScrollIndicator={false}
+                    >
+                        {dummyTopics.map((topic, index) => (
+                            <TopicTag 
+                                key={index}
+                                topic={topic.title}
+                                selected={selectedTopic.includes(topic.title)}
+                                onPress={() => {
+                                    setSelectedTopic(prev => {
+                                        if (prev.includes(topic.title)) {
+                                            return prev.filter(t => t !== topic.title);
+                                        }
+                                        return [...prev, topic.title];
+                                    });
+                                    console.log(`Selected topic: ${topic.title}`);
+                                }}
+                            />
+                        ))}
+                    </ScrollView>
+                </View>
+            )}            
         </View>
     );
 };

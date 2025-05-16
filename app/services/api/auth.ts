@@ -19,7 +19,6 @@ export const createUser = async (email: string, password: string, fullname: stri
                 fullname,
                 gender,
                 age,
-                role: 'nguoidung',
                 slogan: '',
                 avatar: 'default_avatar.png',
             }

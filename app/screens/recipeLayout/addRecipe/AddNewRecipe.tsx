@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { 
-    // Header, 
+    Header, 
     Row, 
     InriaTitle, 
     KuraleTitle, 
@@ -36,9 +36,20 @@ import CulinaImgs from '../../../assets/assets';
 import { spacings, shadow } from '../../../utils/CulinaStyles';
 
 const AddNewRecipe: React.FC = () => {
+    const [user, setUserFetched] = useState({
+        avatar: 'default_avatar.png',
+        fullname: '',
+    });
+    const [imageUri, setImageUri] = useState({id: '1', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png'});
+    const [form, setForm] = useState({
+        dishname: '',
+        description: '',
+        ingredients: [] as string[],
+    });
+
     return (
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-            {/* <Header>Add New Recipe</Header> */}
+            <Header>Add New Recipe</Header>
             <Loading />
         </View>
     );

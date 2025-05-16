@@ -85,6 +85,20 @@ export async function uploadImageAsync(asset: ImagePicker.ImagePickerAsset) {
     }
 }
 
+export const previewFile = (fileId: string): string => {
+    try {
+        const previewUrl = storage.getFileView(
+            dbConfig.storageId!,
+            fileId
+        ).toString();
+        
+        return previewUrl;
+    } catch (error) {
+        console.error("[previewFile] error: ", error);
+        return '';
+    }
+}
+
 export const isAuthor = async (accountId: string) => {
     const currentUser = await getCurrentUser();
 

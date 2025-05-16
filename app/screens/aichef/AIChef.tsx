@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import {View, StyleSheet, Image} from 'react-native';
-import { 
-    // Header, 
-    InriaTitle, NormalText, Row, Loading } from './../../components';
+import { Header, InriaTitle, NormalText, Row, Loading } from './../../components';
 import CulinaImgs from "./../../assets/assets";
 
 const AIChefScreen = () => {
@@ -19,7 +17,7 @@ const AIChefScreen = () => {
 
     return (
         <View style={{flex: 1, backgroundColor: '#FFF'}}>
-            {/* <Header>A.I Chef</Header> */}
+            <Header>A.I Chef</Header>
 
             {loading ? (
                 <Loading />

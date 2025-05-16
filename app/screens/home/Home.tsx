@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Header } from './../../components';
 import SearchBar from './SearchBar';
+import Newfeed from './Newfeed';
+import SearchResult from './SearchResult';
 
 const HomeScreen = () => {
     const [query, setQuery] = useState<string>("");
@@ -16,6 +18,8 @@ const HomeScreen = () => {
             <Header>Home</Header>
 
             <SearchBar onSearch={handleSearch} />
+
+            {query !== "" ? <SearchResult q={query} /> : <Newfeed />}
         </View>
     );
 };

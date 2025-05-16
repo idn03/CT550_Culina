@@ -10,3 +10,4 @@ export { default as Header } from './reuse/Header';
 export { default as StackHeader } from './reuse/StackHeader';
 export { default as InputBar } from './reuse/InputBar';
 export { default as Line } from './reuse/Line';
+export { default as TopicTag } from './reuse/TopicTag';
