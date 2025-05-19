@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import TextBold from './../override/TextBold';
-import { spacings } from './../../utils/CulinaStyles';
+import TextBold from '@components/override/TextBold';
+import { spacings } from '@utils/CulinaStyles';
 
 interface TopicTagProps {
     topic: string;

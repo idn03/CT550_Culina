@@ -10,16 +10,16 @@ import { StyleSheet, View, ImageBackground, Pressable, Alert } from 'react-nativ
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import LottieView from 'lottie-react-native';
-import { Row, NormalText, KuraleTitle, InputBar, SubmitButton } from './../components';
+import { Row, NormalText, KuraleTitle, InputBar, SubmitButton } from '@components/index';
 
 // Other
-import { StackParamList } from '../navigate/StackNavigator';
-import { useGlobalContext } from '../utils/GlobalProvider';
-import { signIn, getCurrentUser } from '../services/api/auth';
-import { isEmail } from '../utils/Helper';
-import { shadow, spacings } from './../utils/CulinaStyles';
-import { storeData, StorageKeys } from '../services/api/asyncStorage';
-import CulinaImgs from './../assets/assets';
+import { StackParamList } from '@navigate/StackNavigator';
+import { useGlobalContext } from '@utils/GlobalProvider';
+import { signIn, getCurrentUser } from '@services/api/auth';
+import { isEmail } from '@utils/Helper';
+import { storeData, StorageKeys } from '@services/api/asyncStorage';
+import { shadow, spacings } from '@utils/CulinaStyles';
+import CulinaImgs from '@assets/index';
 
 const LoginScreen = () => {
     const navigation: NavigationProp<StackParamList> = useNavigation();

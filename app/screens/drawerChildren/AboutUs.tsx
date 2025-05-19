@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from "react-native";
-import { Header, KuraleTitle, NormalText, TextBold } from "./../../components";
-import { shadow, spacings } from './../../utils/CulinaStyles';
+import { Header, KuraleTitle, NormalText, TextBold } from "@components/index";
+import { shadow, spacings } from '@utils/CulinaStyles';
 
 const AboutUsScreen = () => {
     return (

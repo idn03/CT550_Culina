@@ -1,8 +1,10 @@
 import React, { useEffect, useState, } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import RecipePost from './../recipeLayout/RecipePost';
-import { Loading, NormalText } from './../../components';
-import { searchRecipes, Recipe } from './../../services/api/recipes';
+import { Loading } from './../../components';
+import { searchRecipes } from './../../services/api/recipes';
+import { Recipe } from '../../interfaces/recipe';
+import { spacings } from '../../utils/CulinaStyles';
 
 interface SearchResultProps {
     q: string;
@@ -31,7 +33,7 @@ const SearchResult: React.FC<SearchResultProps> = ({ q }) => {
     }
 
     return (
-        <View style={styles.searchResult}>
+        <View style={[styles.searchResult, spacings.p8]}>
             {loading ? (
                 <Loading />
             ): (
@@ -55,7 +57,7 @@ const SearchResult: React.FC<SearchResultProps> = ({ q }) => {
                 />
             )}
 
-            <View style={{margin: 50}}></View>
+            <View style={[spacings.m9]}></View>
         </View>
     );
 };
@@ -63,7 +65,6 @@ const SearchResult: React.FC<SearchResultProps> = ({ q }) => {
 const styles = StyleSheet.create({
     searchResult: {
         flex: 1,
-        padding: 30,
         marginTop: -60,
     },
 });

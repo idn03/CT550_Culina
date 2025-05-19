@@ -8,16 +8,16 @@ import {
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { View, Image, Pressable, StyleSheet } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Row from '../reuse/Row';
-import TextBold from './../override/TextBold';
+import Row from '@components/reuse/Row';
+import TextBold from '@components/override/TextBold';
 
 // Other
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
-import { useGlobalContext } from './../../utils/GlobalProvider';
-import { StackParamList } from './../../navigate/StackNavigator';
-import { signOut } from './../../services/api/auth';
-import { spacings } from '../../utils/CulinaStyles';
-import CulinaImgs from './../../assets/assets';
+import { useGlobalContext } from '@utils/GlobalProvider';
+import { StackParamList } from '@navigate/StackNavigator';
+import { signOut } from '@services/api/auth';
+import { spacings } from '@utils/CulinaStyles';
+import CulinaImgs from '@assets/index';
 
 const CulinaDrawer = (props: DrawerContentComponentProps) => {
     const { setIsLoggedIn, setUser } = useGlobalContext();

@@ -6,7 +6,7 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Row from './Row';
 import KuraleTitle from './KuraleTitle';
-import { spacings } from '../../utils/CulinaStyles';
+import { spacings } from '@utils/CulinaStyles';
 
 interface HeaderProps {
     children: String;

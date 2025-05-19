@@ -1,11 +1,11 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignUpScreen from './../screens/SignUp';
-import LoginScreen from './../screens/Login';
 import DrawerNavigator from './DrawerNavigator';
-import RecipeDetailScreen from './../screens/recipeLayout/recipeDetail/RecipeDetail';
-import EditProfileScreen from './../screens/editProfile/EditProfile';
-import EditRecipeScreen from './../screens/recipeLayout/editRecipe/EditRecipe';
-import { useGlobalContext } from './../utils/GlobalProvider';
+import SignUpScreen from '@screens/SignUp';
+import LoginScreen from '@screens/Login';
+import RecipeDetailScreen from '@screens/recipeLayout/recipeDetail/RecipeDetail';
+import EditProfileScreen from '@screens/editProfile/EditProfile';
+import EditRecipeScreen from '@screens/recipeLayout/editRecipe/EditRecipe';
+import { useGlobalContext } from '@utils/GlobalProvider';
 
 export type StackParamList = {
     Login: undefined;

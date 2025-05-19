@@ -21,7 +21,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 // import { fetchCurrentUser } from '../../../services/api/users';
 // import { uploadImage } from '../../../utils/Helper';
 // import { useGlobalContext } from '../../../utils/GlobalProvider';
-import { spacings, shadow } from '../../utils/CulinaStyles';
+import { spacings, shadow } from '@utils/CulinaStyles';
 
 const EditProfileScreen = () => {
     const radioOptions = useMemo(() => ([

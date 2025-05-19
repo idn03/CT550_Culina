@@ -1,35 +1,8 @@
 import { ID, Permission, Role, Query } from "react-native-appwrite";
 import {dbConfig, database} from '../appwrite';
 import { getCurrentUser } from './auth';
-import { SimpleUser } from "./users";
 import { Alert } from "react-native";
-
-interface SimpleRecipe {
-    title: string;
-    subtitle: string;
-    ingredients: string[];
-    recipeImg: string;
-}
-
-export interface Recipe {
-    $id: string;
-    title: string;
-    subtitle: string;
-    ingredients: string[];
-    author: SimpleUser;
-    recipeImg: string;
-    $createdAt: string;
-}
-
-export interface UserRecipes {
-    owned: Recipe[];
-    saved: Recipe[];
-}
-
-export interface RecipeScore {
-    $id: string;
-    recipeScore: number;
-}
+import { Recipe, SimpleRecipe } from "@interfaces/recipe";
 
 export const dummyTopics = [
     { seq: 1, title: 'Dessert', },

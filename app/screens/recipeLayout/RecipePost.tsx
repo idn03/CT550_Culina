@@ -4,23 +4,14 @@ import {
     useNavigation,
 } from '@react-navigation/native';
 import { StyleSheet, Pressable, Image } from 'react-native';
-import { KuraleTitle, NormalText, Row, TextBold } from './../../components';
-import { StackParamList } from './../../navigate/StackNavigator';
-import { getRecipeScore } from './../../services/api/recipes';
-import { formatDate } from './../../utils/Helper';
-import { spacings, shadow } from './../../utils/CulinaStyles';
+import { KuraleTitle, NormalText, Row, TextBold } from '@components/index';
+import { StackParamList } from '@navigate/StackNavigator';
+import { getRecipeScore } from '@services/api/recipes';
+import { formatDate } from '@utils/Helper';
+import { spacings, shadow } from '@utils/CulinaStyles';
+import { RecipePostInfo } from '@interfaces/recipe';
 
-export interface RecipePostProps {
-    recipeId: string;
-    avatar: string;
-    author: string;
-    datePost: string;
-    thumbnail: string;
-    title: string;
-    subtitle: string;
-}
-
-const RecipePost: React.FC<RecipePostProps> = ({ recipeId, avatar, author, datePost, thumbnail, title, subtitle }) => {
+const RecipePost: React.FC<RecipePostInfo> = ({ seq, recipeId, avatar, author, datePost, thumbnail, title, subtitle }) => {
     const navigation: NavigationProp<StackParamList> = useNavigation();
     const [score, setScore] = useState(0);
     const datePostFormated = formatDate(datePost);
@@ -41,7 +32,7 @@ const RecipePost: React.FC<RecipePostProps> = ({ recipeId, avatar, author, dateP
 
     return (
         <Pressable 
-            style={[styles.container, spacings.mt15, spacings.mb18]} 
+            style={[styles.container, spacings[`mt${seq + 18}`], spacings.mb18]}
             onPress={() => navigation.navigate('RecipeDetail', { recipeId })}
         >
             <Row style={{...styles.postHeader, ...spacings.mh5}}>

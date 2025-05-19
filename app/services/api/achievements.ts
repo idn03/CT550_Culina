@@ -1,16 +1,12 @@
 import { Query } from 'react-native-appwrite';
 import { Alert } from 'react-native';
-import { dbConfig, database } from '../appwrite';
+import { dbConfig, database } from './../appwrite';
 import { getCurrentUser } from './auth';
-import CulinaImgs from '../../assets/assets';
+import CulinaImgs from '@assets/index';
 import { fetchCurrentUserSavedRecipes, fetchCurrentUserRecipes } from './recipes';
 import { getUserAverage } from './users';
-
-export interface UserAchievement {
-    $id: string;
-    fullname: string;
-    goals: string[];
-}
+import { UserAchievement } from '@interfaces/user';
+import { Recipe } from '@interfaces/recipe';
 
 export const dummyAchievements = [
     {
@@ -167,6 +163,11 @@ export const goalCheck = async () => {
         if (average >= 7) {
             result.push('4');
         }
+
+        userRecipes.forEach((item: Recipe) => {
+            if (item.ingredients.length >= 8) result.push('5');
+            // if (item.$createdAt) result.push('6');
+        });
 
         return result;
     }

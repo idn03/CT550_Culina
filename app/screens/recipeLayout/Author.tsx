@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import { Row, NormalText, TextBold } from '../../components';
-import { getCurrentDate } from '../../utils/Helper';
-import { spacings, shadow } from '../../utils/CulinaStyles';
+import { Row, NormalText, TextBold } from '@components/index';
+import { getCurrentDate } from '@utils/Helper';
+import { spacings, shadow } from '@utils/CulinaStyles';
 
 interface AuthorProps {
     avatar: string;

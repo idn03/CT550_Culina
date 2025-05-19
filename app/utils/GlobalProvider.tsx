@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { ReactNode } from 'react';
-import { getCurrentUser } from './../services/api/auth';
+import { getCurrentUser } from '@services/api/auth';
 
 interface User {
     $id: string;

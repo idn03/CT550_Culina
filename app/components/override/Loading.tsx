@@ -1,6 +1,6 @@
 import {View, StyleSheet} from 'react-native';
 import { Swing } from 'react-native-animated-spinkit';
-import { spacings } from '../../utils/CulinaStyles';
+import { spacings } from '@utils/CulinaStyles';
 
 const Loading = () => {
     return (

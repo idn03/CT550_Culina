@@ -1,15 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import {View, StyleSheet} from 'react-native';
-import { 
-    // Header, 
-    Row, Line, Loading } from './../../components';
-import { spacings } from '../../utils/CulinaStyles';
+import { Header, Row, Line, Loading } from '@components/index';
+import Goals from './Goals';
+import TopRank from './TopRank';
+import AchievementList from './AchievementList';
+import { spacings } from '@utils/CulinaStyles';
 
 const AchievementsScreen = () => {
     const [loading, setLoading] = useState(true);
 
+    const loadScreen = async () => {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        loadScreen();
+    }, []);
+
     return (
-        <View></View>
+        <View style={{flex: 1, backgroundColor: '#FFF'}}>
+            <Header>Achievement</Header>
+
+            {loading ? (
+                <Loading />
+            ) : (
+                <View style={{ ...spacings.ph8, flex: 1 }}>
+                    <Row style={styles.scoreboard}>
+                        <Goals />
+                        <TopRank />
+                    </Row>
+
+                    <Line />
+
+                    <AchievementList />
+                    <View style={[spacings.m9]}></View>
+                </View>
+            )}
+        </View>
     );
 };
 

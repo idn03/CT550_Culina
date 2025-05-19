@@ -4,8 +4,8 @@ import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Row from '../reuse/Row';
-import { spacings, shadow } from '../../utils/CulinaStyles';
+import Row from '@components/reuse/Row';
+import { spacings, shadow } from '@utils/CulinaStyles';
 
 const BottomTabs = ({ state, navigation }: any) => {
     const [scaleValues] = useState({

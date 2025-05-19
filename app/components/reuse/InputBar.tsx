@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { spacings, shadow } from '../../utils/CulinaStyles';
+import { spacings, shadow } from '@utils/CulinaStyles';
 
 interface InputBarProps {
     value: string;

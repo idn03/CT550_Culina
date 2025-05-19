@@ -7,8 +7,8 @@ import { Pressable, StyleSheet } from 'react-native';
 import Row from './Row';
 import KuraleTitle from './KuraleTitle';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { StackParamList } from '../../navigate/StackNavigator';
-import { spacings } from '../../utils/CulinaStyles';
+import { StackParamList } from '@navigate/StackNavigator';
+import { spacings } from '@utils/CulinaStyles';
 
 interface StackHeaderProps {
     children: string;

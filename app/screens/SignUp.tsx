@@ -20,13 +20,13 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Row, NormalText, KuraleTitle, InputBar, SubmitButton } from './../components';
+import { Row, NormalText, KuraleTitle, InputBar, SubmitButton } from '@components/index';
 
 // Other
-import { createUser } from './../services/api/auth';
-import { StackParamList } from './../navigate/StackNavigator';
-import { shadow, spacings } from './../utils/CulinaStyles';
-import CulinaImgs from './../assets/assets';
+import { createUser } from '@services/api/auth';
+import { StackParamList } from '@navigate/StackNavigator';
+import { shadow, spacings } from '@utils/CulinaStyles';
+import CulinaImgs from '@assets/index';
 
 const generateAgeItems = () => {
     const items = [];

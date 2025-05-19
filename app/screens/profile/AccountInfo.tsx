@@ -4,20 +4,12 @@ import {
 } from '@react-navigation/native';
 import {View, StyleSheet, Image, Pressable } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { Row, InriaTitle, NormalText } from './../../components';
-import { shadow, spacings } from './../../utils/CulinaStyles';
-// import { StackParamList } from './../../../routes/StackNavigator';
+import { Row, InriaTitle, NormalText } from '@components/index';
+import { shadow, spacings } from '@utils/CulinaStyles';
+import { StackParamList } from '@navigate/StackNavigator';
+import { UserInfo } from '@interfaces/user';
 
-interface AccountInfoProps {
-    avatar: string;
-    fullname: string;
-    slogan: string;
-    recipes: number;
-    average: number;
-    saved: number;
-}
-
-const AccountInfo: React.FC<AccountInfoProps> = ({ avatar, fullname, slogan, recipes, average, saved }) => {
+const AccountInfo: React.FC<UserInfo> = ({ avatar, fullname, slogan, recipes, average, saved }) => {
     return (
         <View>
 

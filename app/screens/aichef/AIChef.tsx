@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import {View, StyleSheet, Image} from 'react-native';
-import { Header, InriaTitle, NormalText, Row, Loading } from './../../components';
-import CulinaImgs from "./../../assets/assets";
+import { Header, InriaTitle, NormalText, Row, Loading } from '@/components';
+import CulinaImgs from "@/assets";
+import { spacings } from "@utils/CulinaStyles";
 
 const AIChefScreen = () => {
     const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ const AIChefScreen = () => {
             {loading ? (
                 <Loading />
             ) : (
-                <View style={styles.main}>
+                <View style={[styles.main, spacings.ph8, spacings.pt5]}>
                     <Row>
                         <View>
                             <Image source={CulinaImgs.stickerOne} style={styles.aiStickers} />

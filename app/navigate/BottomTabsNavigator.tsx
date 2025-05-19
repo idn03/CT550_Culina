@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import BottomTabs from '../components/override/BottomTabs';
-import HomeScreen from '../screens/home/Home';
-import AIChefScreen from '../screens/aichef/AIChef';
-import AddNewRecipe from '../screens/recipeLayout/addRecipe/AddNewRecipe';
-import AchievementsScreen from '../screens/achievements/Achievements';
-import ProfileScreen from '../screens/profile/Profile';
+import BottomTabs from '@components/override/BottomTabs';
+import HomeScreen from '@screens/home/Home';
+import AIChefScreen from '@screens/aichef/AIChef';
+import AddNewRecipe from '@screens/recipeLayout/addRecipe/AddNewRecipe';
+import AchievementsScreen from '@screens/achievements/Achievements';
+import ProfileScreen from '@screens/profile/Profile';
 
 export type BottomTabsParamList = {
     Main: undefined;

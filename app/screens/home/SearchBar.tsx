@@ -16,7 +16,7 @@ import { Row, NormalText, TextBold, TopicTag } from './../../components';
 
 // Other
 import { dummyTopics } from '../../services/api/recipes';
-import { spacings, shadow } from './../../utils/CulinaStyles';
+import { spacings } from './../../utils/CulinaStyles';
 
 interface SearchBarProps {
     onSearch: (query: string) => void;

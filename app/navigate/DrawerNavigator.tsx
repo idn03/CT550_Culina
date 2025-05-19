@@ -2,12 +2,12 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 // Components
-import {CulinaDrawer} from './../components';
+import { CulinaDrawer } from '@components/index';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import HelpScreen from './../screens/drawerChildren/Help';
-import AboutUsScreen from './../screens/drawerChildren/AboutUs';
+import HelpScreen from '@screens/drawerChildren/Help';
+import AboutUsScreen from '@screens/drawerChildren/AboutUs';
 import BottomTabsNavigator from './BottomTabsNavigator';
 
 const Drawer = createDrawerNavigator();

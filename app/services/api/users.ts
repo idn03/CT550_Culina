@@ -2,16 +2,7 @@ import { Query } from 'react-native-appwrite';
 import { database, dbConfig } from '../appwrite';
 import { getCurrentUser } from './auth';
 import { getRecipeScore } from './recipes';
-
-export interface SimpleUser {
-    $id: string;
-    fullname: string;
-    email: string;
-    age: number;
-    gender: string;
-    avatar: string;
-    role: string;
-}
+import { SimpleUser } from '@interfaces/user';
 
 const mapDocumentToUser = (doc: any): SimpleUser => ({
     $id: doc.$id,

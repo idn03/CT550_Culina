@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from "react-native";
-import { Header, InriaTitle, NormalText } from "./../../components";
+import { Header, InriaTitle, NormalText } from "@components/index";
 
 const HelpScreen = () => {
     return (

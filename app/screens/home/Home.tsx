@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Header } from './../../components';
+import { Header } from '@components/index';
 import SearchBar from './SearchBar';
 import Newfeed from './Newfeed';
 import SearchResult from './SearchResult';

@@ -1,8 +1,8 @@
 import {ID} from "react-native-appwrite";
 import * as ImagePicker from "expo-image-picker";
-import { dbConfig, storage } from '../services/appwrite';
+import { dbConfig, storage } from '@services/appwrite';
 import { Platform } from "react-native";
-import { getCurrentUser } from '../services/api/auth';
+import { getCurrentUser } from '@services/api/auth';
 
 const day = new Date().getDate();
 const month = new Date().getMonth() + 1;
