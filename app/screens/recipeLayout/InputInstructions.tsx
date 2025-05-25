@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import {View, StyleSheet, TextInput, Pressable, ScrollView} from 'react-native';
+import { View, StyleSheet, TextInput, Pressable, ScrollView } from 'react-native';
 import { TextBold, NormalText, Row } from "@components/index";
 import { spacings, shadow } from "@utils/CulinaStyles";
 
-interface InputIngredientsProps {
-    ingredients: string[];
-    setIngredients: (ingredients: string[]) => void;
+interface InputInstructionsProps {
+    instructions: string[];
+    setInstructions: (instructions: string[]) => void;
 }
 
-const InputIngredients: React.FC<InputIngredientsProps> = ({ ingredients, setIngredients }) => {
+const InputInstructions: React.FC<InputInstructionsProps> = ({ instructions, setInstructions }) => {
     const [item, setItem] = useState("");
 
-    const handleAddIngredient = () => {
+    const addItem = () => {
         if (item.trim() !== "") {
-            setIngredients([...ingredients, item.trim()]);
+            setInstructions([...instructions, item.trim()]);
             setItem("");
         }
     };
 
-    const handleRemoveIngredient = (index: number) => {
-        const updatedIngredients = ingredients.filter((_, i) => i !== index);
-        setIngredients(updatedIngredients);
+    const removeItem = (index: number) => {
+        const updatedInstructions = instructions.filter((_, i) => i !== index);
+        setInstructions(updatedInstructions);
     };
-    
+
     return (
         <View>
             <View style={{position: 'relative'}}>
                 <TextInput 
-                    placeholder='Type ingredient here' 
+                    placeholder='Type instruction here' 
                     placeholderTextColor={'#33333380'}
                     maxLength={30}
                     style={[styles.inputBar, spacings.m5, spacings.ph4, spacings.pv6]}
@@ -38,17 +38,17 @@ const InputIngredients: React.FC<InputIngredientsProps> = ({ ingredients, setIng
 
                 <Pressable 
                     style={[styles.inputBtn, spacings.p2]} 
-                    onPress={handleAddIngredient}
+                    onPress={addItem}
                 >
                     <TextBold style={{fontSize: 28}}>+</TextBold>
                 </Pressable>
             </View>
 
             <ScrollView style={[spacings.mv1, spacings.mh5]}>
-                {ingredients.map((item, index) => (
-                    <Row key={index} style={{...styles.ingredientItem, ...spacings.mt1, ...spacings.p2}}>
+                {instructions.map((item, index) => (
+                    <Row key={index} style={{...styles.instructionItem, ...spacings.mt1, ...spacings.p2}}>
                         <NormalText>{item}</NormalText>
-                        <Pressable onPress={() => handleRemoveIngredient(index)}>
+                        <Pressable onPress={() => removeItem(index)}>
                         <FontAwesome name="trash" size={20} color="#333" />
                         </Pressable>
                     </Row>
@@ -70,10 +70,10 @@ const styles = StyleSheet.create({
         top: 28,
         borderRadius: 30,
     },
-    ingredientItem: {
+    instructionItem: {
         justifyContent: "space-between",
         alignItems: "center",
     },
 });
 
-export default InputIngredients;
+export default InputInstructions;

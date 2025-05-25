@@ -11,24 +11,82 @@ import AccountInfo from './AccountInfo';
 // Other
 import { fetchCurrentUser } from '@services/api/users';
 import { fetchCurrentUserRecipes, fetchCurrentUserSavedRecipes } from '@services/api/recipes';
+import { getUserAverage } from '@services/api/users';
 import { Recipe } from '@/interfaces/recipe';
-// import { useGlobalContext } from '@utils/GlobalProvider';
-// import { getUserAverage } from '@services/api/users';
+import { Profile } from '@/interfaces/user';
+import { useGlobalContext } from '@utils/GlobalProvider';
 
 const ProfileScreen = () => {
-    const [user, setUserFetched] = useState({
-        $id: '',
-        avatar: 'default_avatar.png',
-        fullname: '',
-        age: 0,
-        gender: '',
-        role: 'nguoidung',
-        slogan: '',
-        totalRecipe: 0,
-        average: 0,
-        totalSaved: 0,
-    });
+    const [profile, setProfile] = useState<Profile>();
     const [loading, setLoading] = useState(true);
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
+    const [selected, setSelected] = useState('left');
+    const { refresh } = useGlobalContext();
+
+    const loadUserInfo = async () => {
+        const userFetched = await fetchCurrentUser();
+        if (userFetched) {
+            setProfile(prevState => ({
+                ...userFetched,
+                totalRecipe: prevState?.totalRecipe ?? 0,
+                average: prevState?.average ?? 0,
+                totalSaved: prevState?.totalSaved ?? 0
+            }));
+        }
+        setLoading(false);
+    };
+
+    const loadUserAverage = async () => {
+        const averageFetched = await getUserAverage();
+        if (averageFetched && profile) {
+            setProfile({
+                ...profile,
+                average: averageFetched,
+            });
+        }
+        else {
+            console.error("Error fetching user average");
+        }
+        setLoading(false);
+    };
+
+    const loadUserRecipes = async () => {
+        const recipeFetched = await fetchCurrentUserRecipes();
+        if (recipeFetched && profile) {
+            setRecipes(recipeFetched);
+            setProfile({
+                ...profile,
+                totalRecipe: recipeFetched.length,
+            });
+        }
+        else {
+            console.error("Error fetching user recipes");
+        }
+        setLoading(false);
+    }
+
+    const loadUserSavedRecipes = async () => {
+        const recipeFetched = await fetchCurrentUserSavedRecipes();
+        if (recipeFetched && profile) {
+            setSavedRecipes(recipeFetched);
+            setProfile({
+                ...profile,
+                totalSaved: recipeFetched.length,
+            });
+        }
+        else {
+            console.error("Error fetching user saved recipes");
+        }
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        loadUserSavedRecipes();
+        loadUserRecipes();
+        loadUserAverage();
+        loadUserInfo();
+    }, [refresh]);
 
     return (
         <View></View>

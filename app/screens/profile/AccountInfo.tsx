@@ -7,9 +7,11 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Row, InriaTitle, NormalText } from '@components/index';
 import { shadow, spacings } from '@utils/CulinaStyles';
 import { StackParamList } from '@navigate/StackNavigator';
-import { UserInfo } from '@interfaces/user';
+import { Profile } from '@interfaces/user';
 
-const AccountInfo: React.FC<UserInfo> = ({ avatar, fullname, slogan, recipes, average, saved }) => {
+const AccountInfo: React.FC<Profile> = (
+    { avatar, fullname, age, gender, slogan, totalRecipe, average, totalSaved }
+) => {
     return (
         <View>
 

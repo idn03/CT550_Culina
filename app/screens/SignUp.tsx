@@ -156,7 +156,7 @@ const SignUpScreen = () => {
                                     setItems={setItems}
                                     listMode='SCROLLVIEW'
                                     style={StyleSheet.flatten([styles.ageDropdown, shadow.boxShadow])}
-                                    dropDownContainerStyle={styles.dropDownContainer}
+                                    dropDownContainerStyle={[styles.dropDownContainer, spacings.p4]}
                                 />
                             </View>
                         </Row>
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
         marginTop: 20, 
         width: 200, 
         borderWidth: 0,
-        backgroundColor:'#FFFFFF40', 
+        backgroundColor:'#FFFFFF50', 
         borderTopLeftRadius: 5, 
         borderTopRightRadius: 5, 
         borderBottomLeftRadius: 15, 
@@ -218,8 +218,8 @@ const styles = StyleSheet.create({
     },
     dropDownContainer: {
         borderWidth: 0, 
-        backgroundColor:'#FFFFFF40', 
-        padding: 16
+        backgroundColor:'#FFFFFF50', 
+        marginTop: 21
     },
 });
 

@@ -18,7 +18,7 @@ const AIChefScreen = () => {
 
     return (
         <View style={{flex: 1, backgroundColor: '#FFF'}}>
-            <Header>A.I Chef</Header>
+            <Header>For You</Header>
 
             {loading ? (
                 <Loading />

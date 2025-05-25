@@ -2,62 +2,217 @@
 import React, { useState, useEffect } from 'react';
 
 // Components
-import { 
-    View, 
-    StyleSheet, 
-    Pressable, 
-    Image, 
-    Alert, 
-    TextInput, 
+import {
+    View,
+    StyleSheet,
+    Pressable,
+    Image,
+    Alert,
+    TextInput,
     ScrollView,
-    KeyboardAvoidingView,  
+    KeyboardAvoidingView,
     Platform
 } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { 
-    Header, 
-    Row, 
-    InriaTitle, 
-    KuraleTitle, 
-    NormalText, 
-    TextBold, 
+import {
+    Header,
+    Row,
+    InriaTitle,
+    KuraleTitle,
+    NormalText,
+    TextBold,
     Line,
-    Loading 
+    Loading
 } from '@components/index';
-import InputIngredients from '@screens/recipeLayout/InputIngredients';
 import Author from '@screens/recipeLayout/Author';
+import InputIngredients from '@screens/recipeLayout/InputIngredients';
+import InputInstructions from '@screens/recipeLayout/InputInstructions';
+import { LayoutSelector } from './LayoutSelector';
 
 // Other
-// import { uploadImage, getCurrentDate } from '@utils/Helper';
-// import { createRecipe } from '@services/api/recipes';
-// import { fetchCurrentUser } from '@services/api/users';
-// import { useGlobalContext } from '@utils/GlobalProvider';
+import { uploadImage } from '@utils/Helper';
+import { createRecipe } from '@services/api/recipes';
+import { fetchCurrentUser } from '@services/api/users';
+import { useGlobalContext } from '@utils/GlobalProvider';
 import CulinaImgs from '@assets/index';
+import { AddRecipeForm } from '@/interfaces/recipe';
 import { spacings, shadow } from '@utils/CulinaStyles';
 
 const AddNewRecipe: React.FC = () => {
-    const [user, setUserFetched] = useState({
+    const [author, setAuthor] = useState({
         avatar: 'default_avatar.png',
         fullname: '',
     });
-    const [imageUri, setImageUri] = useState({id: '1', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png'});
-    const [form, setForm] = useState({
-        dishname: '',
+    const [imageUri, setImageUri] = useState({ id: '1', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png' });
+    const [form, setForm] = useState<AddRecipeForm>({
+        layout: 'one',
+        title: '',
         description: '',
-        ingredients: [] as string[],
+        recipeImg: imageUri.id,
+        topics: [],
+        ingredients: [],
+        instructions: [],
     });
+    const [loading, setLoading] = useState(true);
+    const { triggerRefresh } = useGlobalContext();
+
+    const loadUserInfo = async () => {
+        const userFetched = await fetchCurrentUser();
+        if (userFetched) {
+            setAuthor(userFetched);
+        }
+        setLoading(false);
+    };
+
+    const handleSubmit = async () => {
+        if (!form.title || !form.description || form.ingredients.length === 0) {
+            Alert.alert("Error", "Please fill in all fields.");
+            return;
+        }
+
+        try {
+            await createRecipe({
+                title: form.title,
+                layout: form.layout,
+                description: form.description,
+                topics: form.topics,
+                ingredients: form.ingredients,
+                instructions: form.instructions,
+                recipeImg: imageUri.id
+            });
+
+            setForm({
+                layout: 'one',
+                title: '',
+                description: '',
+                recipeImg: imageUri.id,
+                topics: [],
+                ingredients: [],
+                instructions: [],
+            });
+            Alert.alert("Success", "Recipe added successfully!");
+            triggerRefresh();
+        } catch (error) {
+            Alert.alert("Error", "Failed to add recipe.");
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        loadUserInfo();
+    }, []);
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+                <Header>Add New Recipe</Header>
+                <Loading />
+            </View>
+        );
+    }
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-            <Header>Add New Recipe</Header>
-            <Loading />
-        </View>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+                <Header>Add New Recipe</Header>
+
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    keyboardShouldPersistTaps='handled'
+                    nestedScrollEnabled={true}
+                >
+                    <View style={spacings.p8}>
+                        <InriaTitle>Choose Layout</InriaTitle>
+
+                        <LayoutSelector 
+                            selectedLayout={form.layout}
+                            onLayoutSelect={(selected) => {
+                                setForm({...form, layout: selected });
+                            }}
+                        />
+
+                        <View style={spacings.mt5}>
+                            <InriaTitle>Upload Image</InriaTitle>
+                            <Pressable onPress={async () => {
+                                const result = await uploadImage();
+                                setImageUri({
+                                    id: result?.id || '',
+                                    uri: result?.url || '',
+                                });
+                            }}
+                                style={[styles.uploadImg, spacings.mt5]}
+                            >
+                                <Image resizeMode='contain' source={{ uri: imageUri.uri }} style={styles.preview} />
+                                <NormalText>Choose your Image</NormalText>
+                            </Pressable>
+                        </View>
+
+                        <View style={spacings.mt5}>
+                            <Row style={{ justifyContent: 'space-between' }}>
+                                <TextInput
+                                    value={form.title}
+                                    onChangeText={(dn) => setForm({ ...form, title: dn })}
+                                    placeholder='Dish Name...'
+                                    placeholderTextColor={'#33333350'}
+                                    style={styles.inputRecipeTitle}
+                                />
+                                <KuraleTitle style={{ fontSize: 20 }}>0 / 10</KuraleTitle>
+                            </Row>
+                        </View>
+
+                        <View style={[spacings.mt3]}>
+                            <Author
+                                avatar={author.avatar}
+                                fullname={author.fullname}
+                            />
+                        </View>
+
+                        <View style={[spacings.mt3, spacings.mh8]}>
+                            <TextInput
+                                value={form.description}
+                                onChangeText={(des) => setForm({ ...form, description: des })}
+                                placeholder='Type description here...'
+                                placeholderTextColor={'#33333350'}
+                                style={[spacings.pt2, { color: '#333' }]}
+                            />
+                        </View>
+
+                        <Line />
+
+                        <View>
+                            <InriaTitle>Ingredients</InriaTitle>
+                            <InputIngredients
+                                ingredients={form.ingredients}
+                                setIngredients={(ingredients) => setForm({ ...form, ingredients })}
+                            />
+                        </View>
+
+                        <View>
+                            <InriaTitle>Instructions</InriaTitle>
+                            <InputInstructions 
+                                instructions={form.instructions}
+                                setInstructions={(instructions) => setForm({ ...form, instructions })}
+                            />
+                        </View>
+
+                        <Pressable
+                            onPress={() => { !loading && handleSubmit(); }}
+                            disabled={loading}
+                        >
+                            <KuraleTitle style={{ ...spacings.mb20, ...shadow.textShadow, alignSelf: 'flex-end' }}>
+                                {loading ? "Sharing..." : "Share new recipe!"}
+                            </KuraleTitle>
+                        </Pressable>
+                    </View>
+                </ScrollView>
+            </View>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     layouts: {
-        marginTop: 10,
         marginLeft: -20,
         alignItems: 'flex-start',
         justifyContent: 'space-between'
@@ -71,7 +226,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     preview: {
-        height: 100, 
+        height: 100,
         width: 120,
         borderRadius: 10,
     },

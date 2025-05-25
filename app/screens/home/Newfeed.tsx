@@ -3,12 +3,14 @@ import React, { useEffect, useState, useCallback } from 'react';
 
 // Components
 import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
-import { Loading } from './../../components';
-import RecipePost from './../recipeLayout/RecipePost';
+import { Loading } from '@components/index';
+import RecipePost from '@screens/recipeLayout/RecipePost';
 
 // Other
-import { fetchNewestRecipes, Recipe } from './../../services/api/recipes';
-import { useGlobalContext } from './../../utils/GlobalProvider';
+import { fetchNewestRecipes } from '@services/api/recipes';
+import { Recipe } from '@interfaces/recipe';
+import { useGlobalContext } from '@utils/GlobalProvider';
+import { spacings } from '@utils/CulinaStyles';
 
 const Newfeed = () => {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -39,15 +41,16 @@ const Newfeed = () => {
     }, [refresh]);
 
     return (
-        <View style={styles.newFeedContainer}>
+        <View style={[styles.newFeedContainer, spacings.ph8]}>
             {loading && recipes.length === 0 ? (
                 <Loading />
             ) : (
                 <FlatList
                     data={recipes}
                     keyExtractor={(item) => item.$id}
-                    renderItem={({ item }) => (
+                    renderItem={({ item, index }) => (
                         <RecipePost
+                            seq={index}
                             recipeId={item.$id}
                             avatar={item.author.avatar}
                             author={item.author.fullname}
@@ -71,16 +74,13 @@ const Newfeed = () => {
                 />
             )}
 
-            <View style={{margin: 50}}></View>
+            <View style={[spacings.m9]}></View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    newFeedContainer: {
-        flex: 1,
-        paddingHorizontal: 30,
-    },
+    newFeedContainer: {flex: 1},
 });
 
 export default Newfeed;
