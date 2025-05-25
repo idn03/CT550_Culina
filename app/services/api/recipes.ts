@@ -2,7 +2,7 @@ import { ID, Permission, Role, Query } from "react-native-appwrite";
 import {dbConfig, database} from '../appwrite';
 import { getCurrentUser } from './auth';
 import { Alert } from "react-native";
-import { Recipe, SimpleRecipe } from "@interfaces/recipe";
+import { AddRecipeForm, Recipe } from "@interfaces/recipe";
 
 export const dummyTopics = [
     { seq: 1, title: 'Dessert', },
@@ -17,8 +17,11 @@ export const dummyTopics = [
 const mapDocumentToRecipe = (doc: any): Recipe => ({
     $id: doc.$id,
     title: doc.title,
-    subtitle: doc.subtitle,
+    layout: doc.layout,
+    description: doc.description,
+    topics: doc.topics,
     ingredients: doc.ingredients,
+    instructions: doc.instructions,
     author: doc.accountId,
     recipeImg: doc.recipeImg,
     $createdAt: doc.$createdAt,
@@ -65,11 +68,17 @@ export const fetchCurrentUserSavedRecipes = async (): Promise<Recipe[]> => {
 };
 
 export const fetchCurrentUserRecipes = async () => {
-    const user = await getCurrentUser();
+    try {
+        const user = await getCurrentUser();
     
-    if (!user) return;
-    
-    return user.recipes;
+        if (!user) return;
+        
+        return user.recipes;
+    }
+    catch (error) {
+        console.error("Error fetching current user recipes:", error);
+        return [];
+    }
 };
 
 export const fetchRecipeDetail = async (recipeId: string): Promise<Recipe> => {
@@ -97,7 +106,7 @@ export const fetchRecipeDetail = async (recipeId: string): Promise<Recipe> => {
     }
 };
 
-export const createRecipe = async (recipeData: SimpleRecipe): Promise<void> => {
+export const createRecipe = async (recipeData: AddRecipeForm): Promise<void> => {
     if (!Array.isArray(recipeData.ingredients)) {
         throw new Error("Ingredients must be an array of strings.");
     }
@@ -152,7 +161,7 @@ export const searchRecipes = async (query: string): Promise<Recipe[]> => {
     }
 };
 
-export const editRecipe = async (data: SimpleRecipe, recipeId: string) => {
+export const editRecipe = async (data: Recipe, recipeId: string) => {
     try {
         const cr = await database.listDocuments(
             dbConfig.db,
@@ -168,7 +177,7 @@ export const editRecipe = async (data: SimpleRecipe, recipeId: string) => {
 
         const updatedRecipe = {
             title: data.title || currentRecipe.title,
-            subtitle: data.subtitle || currentRecipe.subtitle,
+            description: data.description || currentRecipe.description,
             ingredients: data.ingredients || currentRecipe.ingredients,
             recipeImg: data.recipeImg || currentRecipe.recipeImg,
         };

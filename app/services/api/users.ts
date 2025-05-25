@@ -11,7 +11,6 @@ const mapDocumentToUser = (doc: any): SimpleUser => ({
     age: doc.age,
     gender: doc.gender,
     avatar: doc.avatar,
-    role: doc.role,
 }); 
 
 export const fetchAllUsers = async (): Promise<SimpleUser[]> => {

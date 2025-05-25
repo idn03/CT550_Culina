@@ -20,6 +20,7 @@ const CulinaImgs = {
         muscle: require('./imgs/achievementThumbnails/muscle.png')
     },
     hello: require('./imgs/Animation-hello.json'),
+    altAvatar: require('./imgs/alt-avatar.png'),
 };
 
 export default CulinaImgs;

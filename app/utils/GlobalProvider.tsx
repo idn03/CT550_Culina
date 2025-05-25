@@ -1,17 +1,13 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { ReactNode } from 'react';
 import { getCurrentUser } from '@services/api/auth';
-
-interface User {
-    $id: string;
-    email: string;
-}
+import { UserAuth } from '@interfaces/user';
 
 interface GlobalContextType {
     isLoggedIn: boolean;
     setIsLoggedIn: (value: boolean) => void;
-    user: User | null;
-    setUser: (user: User | null) => void;
+    user: UserAuth | null;
+    setUser: (user: UserAuth | null) => void;
     isLoading: boolean;
     refresh: boolean;
     triggerRefresh: () => void;
@@ -28,7 +24,7 @@ export const useGlobalContext = () => {
 
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<UserAuth | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [refresh, setRefresh] = useState(false);
 

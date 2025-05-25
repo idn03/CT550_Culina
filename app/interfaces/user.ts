@@ -1,22 +1,14 @@
 import { Recipe } from "./recipe";
 
+export interface UserAuth {
+    $id: string;
+    email: string;
+}
+
 export interface SimpleUser {
     $id: string;
     fullname: string;
-    email: string;
-    age: number;
-    gender: string;
     avatar: string;
-    role: string;
-}
-
-export interface UserInfo {
-    avatar: string;
-    fullname: string;
-    slogan: string;
-    recipes: number;
-    average: number;
-    saved: number;
 }
 
 export interface UserAchievement {
@@ -28,4 +20,16 @@ export interface UserAchievement {
 export interface UserRecipes {
     owned: Recipe[];
     saved: Recipe[];
+}
+
+export interface Profile {
+    $id: string;
+    fullname: string;
+    slogan: string;
+    age: number;
+    gender: string;
+    avatar: string;
+    totalRecipe: number;
+    totalSaved: number;
+    average: number;
 }
