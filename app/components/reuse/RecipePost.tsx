@@ -12,7 +12,7 @@ import { formatDate } from '@utils/Helper';
 import { spacings, shadow } from '@utils/CulinaStyles';
 import { RecipePostInfo } from '@interfaces/recipe';
 
-const RecipePost: React.FC<RecipePostInfo> = ({ seq, recipeId, avatar, author, datePost, thumbnail, title, subtitle }) => {
+const RecipePost: React.FC<RecipePostInfo> = ({ seq, recipeId, author, datePost, recipeImg, title, description }) => {
     const navigation: NavigationProp<StackParamList> = useNavigation();
     const [score, setScore] = useState(0);
     const datePostFormated = formatDate(datePost);
@@ -38,20 +38,20 @@ const RecipePost: React.FC<RecipePostInfo> = ({ seq, recipeId, avatar, author, d
         >
             <Row style={{...styles.postHeader, ...spacings.mh5}}>
                 <Row>
-                    <Image source={{uri: avatar}} style={[styles.postAvatar, spacings.mr2]} />
+                    <Image source={{uri: author.avatar}} style={[styles.postAvatar, spacings.mr2]} />
                     <Row style={spacings.mb3}>
                         <NormalText>Posted by </NormalText>
-                        <TextBold>{author}</TextBold>
+                        <TextBold>{author.fullname}</TextBold>
                     </Row>
                 </Row>
                 <NormalText style={spacings.mb3}>{datePostFormated}</NormalText>
             </Row>
-            <Image source={{uri: thumbnail}} style={[styles.postThumbnail, shadow.boxShadow]} />
+            <Image source={{uri: recipeImg}} style={[styles.postThumbnail, shadow.boxShadow]} />
             
             <KuraleTitle style={styles.postText}>{title}</KuraleTitle>
             <KuraleTitle style={{...styles.postText, fontSize: 20}}>{`${score} / 10`}</KuraleTitle>
             <TextBold style={styles.postText}>Description:</TextBold>
-            <NormalText style={styles.postText}>{subtitle}</NormalText>
+            <NormalText style={styles.postText}>{description}</NormalText>
         </Pressable>
     );
 };

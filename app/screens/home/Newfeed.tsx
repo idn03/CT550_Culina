@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 // Components
 import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { Loading } from '@components/index';
-import RecipePost from '@screens/recipeLayout/RecipePost';
+import RecipePost from '@/components/reuse/RecipePost';
 
 // Other
 import { fetchNewestRecipes } from '@services/api/recipes';
@@ -52,12 +52,11 @@ const Newfeed = () => {
                         <RecipePost
                             seq={index}
                             recipeId={item.$id}
-                            avatar={item.author.avatar}
-                            author={item.author.fullname}
+                            author={item.author}
                             datePost={item.$createdAt}
-                            thumbnail={item.recipeImg}
+                            recipeImg={item.recipeImg}
                             title={item.title}
-                            subtitle={item.subtitle}
+                            description={item.description}
                         />
                     )}
                     showsVerticalScrollIndicator={false}

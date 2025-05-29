@@ -47,9 +47,12 @@ const InputInstructions: React.FC<InputInstructionsProps> = ({ instructions, set
             <ScrollView style={[spacings.mv1, spacings.mh5]}>
                 {instructions.map((item, index) => (
                     <Row key={index} style={{...styles.instructionItem, ...spacings.mt1, ...spacings.p2}}>
-                        <NormalText>{item}</NormalText>
+                        <Row>
+                            <TextBold>{`Step ${index + 1}: `}</TextBold>
+                            <NormalText>{item}</NormalText>
+                        </Row>
                         <Pressable onPress={() => removeItem(index)}>
-                        <FontAwesome name="trash" size={20} color="#333" />
+                            <FontAwesome name="trash" size={20} color="#333" />
                         </Pressable>
                     </Row>
                 ))}

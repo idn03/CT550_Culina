@@ -10,7 +10,7 @@ interface LayoutSelectorProps {
     onLayoutSelect: (layout: string) => void;
 }
 
-export const LayoutSelector = ({ selectedLayout, onLayoutSelect }: LayoutSelectorProps) => {
+const LayoutSelector = ({ selectedLayout, onLayoutSelect }: LayoutSelectorProps) => {
     return (
         <Row style={styles.layouts}>
             {['one', 'two'].map((layoutType) => (
@@ -42,3 +42,5 @@ const styles = StyleSheet.create({
         width: 160,
     },
 });
+
+export default LayoutSelector;
