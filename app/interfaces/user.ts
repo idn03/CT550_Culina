@@ -24,6 +24,7 @@ export interface UserRecipes {
 
 export interface Profile {
     $id: string;
+    email: string;
     fullname: string;
     slogan: string;
     age: number;

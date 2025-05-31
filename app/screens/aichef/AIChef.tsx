@@ -18,7 +18,7 @@ const AIChefScreen = () => {
 
     return (
         <View style={{flex: 1, backgroundColor: '#FFF'}}>
-            <Header>For You</Header>
+            <Header>Recommender</Header>
 
             {loading ? (
                 <Loading />
@@ -28,8 +28,8 @@ const AIChefScreen = () => {
                         <View>
                             <Image source={CulinaImgs.stickerOne} style={styles.aiStickers} />
                             <View>
-                                <InriaTitle>Ask A.I Assistant</InriaTitle>
-                                <NormalText>Chating with Culina Assistant to create or modify a recipe for you.</NormalText>
+                                <InriaTitle>Let A.I Assistant Recommend Recipes For You</InriaTitle>
+                                <NormalText>By tracking user behaviors, Culina 2 can remember what is your favorite foods, I will recommend some related recipes around it.</NormalText>
                             </View>
                         </View>
                     </Row>

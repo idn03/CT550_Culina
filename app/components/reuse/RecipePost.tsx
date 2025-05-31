@@ -4,8 +4,15 @@ import {
     NavigationProp,
     useNavigation,
 } from '@react-navigation/native';
+
+// Components
 import { StyleSheet, Pressable, Image } from 'react-native';
-import { KuraleTitle, NormalText, Row, TextBold } from '@components/index';
+import Row from "./Row";
+import KuraleTitle from "./KuraleTitle";
+import TextBold from "../override/TextBold";
+import NormalText from "../override/Text";
+
+// Other
 import { StackParamList } from '@navigate/StackNavigator';
 import { getRecipeScore } from '@services/api/recipes';
 import { formatDate } from '@utils/Helper';

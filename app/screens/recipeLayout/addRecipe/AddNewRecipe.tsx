@@ -20,14 +20,13 @@ import {
     InriaTitle,
     KuraleTitle,
     NormalText,
-    TextBold,
+    LayoutSelector,
     Line,
     Loading
 } from '@components/index';
-import Author from '@screens/recipeLayout/Author';
-import InputIngredients from '@screens/recipeLayout/InputIngredients';
-import InputInstructions from '@screens/recipeLayout/InputInstructions';
-import { LayoutSelector } from './LayoutSelector';
+import Author from '@/components/reuse/Author';
+import InputIngredients from '@/components/reuse/InputIngredients';
+import InputInstructions from '@/components/reuse/InputInstructions';
 
 // Other
 import { uploadImage } from '@utils/Helper';

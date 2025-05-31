@@ -31,9 +31,9 @@ import { StackParamList } from '@navigate/StackNavigator';
 import { useGlobalContext } from '@utils/GlobalProvider';
 
 
-// export const Post
+// export const LayoutOnePost
 
-export const Detail = ({ recipeData, score }: { recipeData: Recipe, score: number }) => {
+export const LayoutOneDetail = ({ recipeData, score }: { recipeData: Recipe, score: number }) => {
     const navigation: NavigationProp<StackParamList> = useNavigation();
     const [isOwned, setIsOwned] = useState(false);
     const datePost = recipeData ? formatDate(recipeData.$createdAt) : '';
@@ -97,7 +97,7 @@ export const Detail = ({ recipeData, score }: { recipeData: Recipe, score: numbe
                     )}
 
                     <View style={[spacings.mh5]}>
-                        <NormalText>{recipeData.subtitle}</NormalText>
+                        <NormalText>{recipeData.description}</NormalText>
 
                         <Row>
                             <NormalText>Topic 1</NormalText>

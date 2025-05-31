@@ -1,6 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Row, NormalText, TextBold, Avatar } from '@components/index';
+import Row from "./Row";
+import TextBold from "../override/TextBold";
+import NormalText from "../override/Text";
+import Avatar from "./Avatar";
 import { getCurrentDate } from '@utils/Helper';
 
 interface AuthorProps {

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {View, StyleSheet, TextInput, Pressable, ScrollView} from 'react-native';
-import { TextBold, NormalText, Row } from "@components/index";
-import { spacings, shadow } from "@utils/CulinaStyles";
+import Row from "./Row";
+import TextBold from "../override/TextBold";
+import NormalText from "../override/Text";
+import { spacings } from "@utils/CulinaStyles";
 
 interface InputIngredientsProps {
     ingredients: string[];

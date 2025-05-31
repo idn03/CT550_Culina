@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ViewStyle} from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 import { spacings } from '@utils/CulinaStyles';
 
 interface LineProps {

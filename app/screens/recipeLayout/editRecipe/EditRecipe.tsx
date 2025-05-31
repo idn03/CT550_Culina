@@ -22,8 +22,8 @@ import {
     KuraleTitle,
     Line  
 } from '@components/index';
-import InputIngredients from '@screens/recipeLayout/InputIngredients';
-import Author from '@screens/recipeLayout/Author';
+import InputIngredients from '@/components/reuse/InputIngredients';
+import Author from '@/components/reuse/Author';
 
 // Other
 import { RouteProp } from '@react-navigation/native';

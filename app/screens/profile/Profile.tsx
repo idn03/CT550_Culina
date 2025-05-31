@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Components
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Header, Loading, Line } from '@components/index';
 import AccountInfo from './AccountInfo';
 // import SimpleRecipeList from './SimpleRecipeList';
@@ -10,7 +10,7 @@ import AccountInfo from './AccountInfo';
 
 // Other
 import { fetchCurrentUser } from '@services/api/users';
-import { fetchCurrentUserRecipes, fetchCurrentUserSavedRecipes } from '@services/api/recipes';
+// import { fetchCurrentUserRecipes, fetchCurrentUserSavedRecipes } from '@services/api/recipes';
 import { getUserAverage } from '@services/api/users';
 import { Recipe } from '@/interfaces/recipe';
 import { Profile } from '@/interfaces/user';
@@ -51,46 +51,57 @@ const ProfileScreen = () => {
         setLoading(false);
     };
 
-    const loadUserRecipes = async () => {
-        const recipeFetched = await fetchCurrentUserRecipes();
-        if (recipeFetched && profile) {
-            setRecipes(recipeFetched);
-            setProfile({
-                ...profile,
-                totalRecipe: recipeFetched.length,
-            });
-        }
-        else {
-            console.error("Error fetching user recipes");
-        }
-        setLoading(false);
-    }
+    // const loadUserRecipes = async () => {
+    //     const recipeFetched = await fetchCurrentUserRecipes();
+    //     if (recipeFetched && profile) {
+    //         setRecipes(recipeFetched);
+    //         setProfile({
+    //             ...profile,
+    //             totalRecipe: recipeFetched.length,
+    //         });
+    //     }
+    //     else {
+    //         console.error("Error fetching user recipes");
+    //     }
+    //     setLoading(false);
+    // }
 
-    const loadUserSavedRecipes = async () => {
-        const recipeFetched = await fetchCurrentUserSavedRecipes();
-        if (recipeFetched && profile) {
-            setSavedRecipes(recipeFetched);
-            setProfile({
-                ...profile,
-                totalSaved: recipeFetched.length,
-            });
-        }
-        else {
-            console.error("Error fetching user saved recipes");
-        }
-        setLoading(false);
-    }
+    // const loadUserSavedRecipes = async () => {
+    //     const recipeFetched = await fetchCurrentUserSavedRecipes();
+    //     if (recipeFetched && profile) {
+    //         setSavedRecipes(recipeFetched);
+    //         setProfile({
+    //             ...profile,
+    //             totalSaved: recipeFetched.length,
+    //         });
+    //     }
+    //     else {
+    //         console.error("Error fetching user saved recipes");
+    //     }
+    //     setLoading(false);
+    // }
 
-    useEffect(() => {
-        loadUserSavedRecipes();
-        loadUserRecipes();
-        loadUserAverage();
-        loadUserInfo();
-    }, [refresh]);
+    // useEffect(() => {
+    //     loadUserSavedRecipes();
+    //     loadUserRecipes();
+    //     loadUserAverage();
+    //     loadUserInfo();
+    // }, [refresh]);
 
     return (
-        <View></View>
+        <View style={styles.container}>
+            <Header>Profile</Header>
+
+            <Loading />
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#FFF',
+    },
+});
 
 export default ProfileScreen;

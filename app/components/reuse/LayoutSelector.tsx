@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Pressable, Image, StyleSheet } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Row } from '@components/index';
+import Row from './Row';
 import CulinaImgs from '@assets/index';
 import { spacings } from '@utils/CulinaStyles';
 

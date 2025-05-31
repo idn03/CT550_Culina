@@ -1,6 +1,6 @@
 import React, { useEffect, useState, } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import RecipePost from './../recipeLayout/RecipePost';
+import RecipePost from '../../components/reuse/RecipePost';
 import { Loading } from './../../components';
 import { searchRecipes } from './../../services/api/recipes';
 import { Recipe } from '../../interfaces/recipe';
