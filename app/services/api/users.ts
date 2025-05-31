@@ -2,18 +2,22 @@ import { Query } from 'react-native-appwrite';
 import { database, dbConfig } from '../appwrite';
 import { getCurrentUser } from './auth';
 import { getRecipeScore } from './recipes';
-import { SimpleUser } from '@interfaces/user';
+import { Profile } from '@interfaces/user';
 
-const mapDocumentToUser = (doc: any): SimpleUser => ({
+const mapDocumentToUser = (doc: any): Profile => ({
     $id: doc.$id,
-    fullname: doc.fullname,
     email: doc.email,
+    fullname: doc.fullname,
     age: doc.age,
     gender: doc.gender,
     avatar: doc.avatar,
-}); 
+    slogan: doc.slogan || 'Have fun with Culina! Have fun with Culina!',
+    totalRecipe: 0,
+    totalSaved: 0,
+    average: 0,
+});
 
-export const fetchAllUsers = async (): Promise<SimpleUser[]> => {
+export const fetchAllUsers = async (): Promise<Profile[]> => {
     try {
         const allUsers = await database.listDocuments(
             dbConfig.db,
@@ -29,30 +33,55 @@ export const fetchAllUsers = async (): Promise<SimpleUser[]> => {
     }
 };
 
-export const fetchCurrentUser = async () => {
+export const fetchCurrentUser = async (): Promise<Profile> => {
     try {
         const userFetched = await getCurrentUser();
         if (userFetched) {
             return {
                 $id: userFetched.$id,
+                email: userFetched.email,
                 avatar: userFetched.avatar,
                 fullname: userFetched.fullname,
                 age: userFetched.age,
                 gender: userFetched.gender,
-                role: userFetched.role,
-                slogan: userFetched.slogan || 'Have fun with Culina! Have fun with Culina!',
+                slogan: userFetched.slogan,
+                totalRecipe: 0,
+                totalSaved: 0,
+                average: 0,
             };
         } else {
             console.log('Failed to fetch user info');
-            return null;
+            return {
+                $id: '',
+                email: '',
+                fullname: '',
+                age: 0,
+                gender: '',
+                avatar: '',
+                slogan: '',
+                totalRecipe: 0,
+                totalSaved: 0,
+                average: 0,
+            };
         }
     } catch (error) {
         console.error('Error fetching user info:', error);
-        return null;
+        return {
+            $id: '',
+            email: '',
+            fullname: '',
+            age: 0,
+            gender: '',
+            avatar: '',
+            slogan: '',
+            totalRecipe: 0,
+            totalSaved: 0,
+            average: 0,
+        };
     }
 };
 
-export const editUserInfo = async (userData: SimpleUser): Promise<void> => {
+export const editUserInfo = async (userData: Profile): Promise<void> => {
     const user = await fetchCurrentUser();
 
     if (!user) return;

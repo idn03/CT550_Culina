@@ -1,17 +1,24 @@
 import { ID, Permission, Role, Query } from "react-native-appwrite";
-import {dbConfig, database} from '../appwrite';
-import { getCurrentUser } from './auth';
 import { Alert } from "react-native";
 import { AddRecipeForm, Recipe } from "@interfaces/recipe";
+import { previewFile } from "@/utils/Helper";
+import {dbConfig, database} from '../appwrite';
+import { getCurrentUser } from './auth';
 
 export const dummyTopics = [
-    { seq: 1, title: 'Dessert', },
-    { seq: 2, title: 'Healthy', },
-    { seq: 3, title: 'Vegan', },
-    { seq: 4, title: 'Fast Food', },
-    { seq: 5, title: 'Soup', },
-    { seq: 6, title: 'Fruit', },
-    { seq: 7, title: 'Flavorful', }
+    { id: '15-minutes-or-less', title: '15mins or Less', },
+    { id: '30-minutes-or-less', title: '30mins or Less', },
+    { id: '60-minutes-or-less', title: '60mins or Less', },
+    { id: 'cuisine', title: 'Cuisine', },
+    { id: 'healthy', title: 'Healthy', },
+    { id: 'vegetables', title: 'Vegetables', },
+    { id: 'high-protein', title: 'High Protein', },
+    { id: 'low-protein', title: 'Low Protein', },
+    { id: 'main-dish', title: 'Main Dish', },
+    { id: 'dessert', title: 'Dessert', },
+    { id: 'beverage', title: 'Beverage', },
+    { id: 'spicy', title: 'Spicy', },
+    { id: 'kid-friendly', title: 'Kid Friendly', },
 ];
 
 const mapDocumentToRecipe = (doc: any): Recipe => ({
@@ -35,6 +42,11 @@ export const fetchNewestRecipes = async (): Promise<Recipe[]> => {
             [Query.orderDesc("$createdAt")]
         );
 
+        newestRecipes.documents.map(doc => ({
+            ...doc,
+            recipeImg: doc.recipeImg ? previewFile(doc.recipeImg) : ''
+        }));
+
         return newestRecipes.documents.map(mapDocumentToRecipe);
     }
     catch (error) {
@@ -56,10 +68,13 @@ export const fetchCurrentUserSavedRecipes = async (): Promise<Recipe[]> => {
 
         const savedRecipes = savedRecipesResponse.documents.map((doc: any) => {
             const recipeDoc = doc.recipeId;
-            return mapDocumentToRecipe(recipeDoc);
+            return {
+                ...recipeDoc,
+                recipeImg: recipeDoc.recipeImg ? previewFile(recipeDoc.recipeImg) : ''
+            };
         });
 
-        return savedRecipes;
+        return savedRecipes.map(mapDocumentToRecipe);
     }
     catch (error) {
         console.error("Error fetching saved recipes:", error);
@@ -72,8 +87,19 @@ export const fetchCurrentUserRecipes = async () => {
         const user = await getCurrentUser();
     
         if (!user) return;
-        
-        return user.recipes;
+
+        const userRecipes = await database.listDocuments(
+            dbConfig.db,
+            dbConfig.collection.recipes,
+            [Query.equal('accountId', user.$id)]
+        );
+
+        const recipesWithUrls = userRecipes.documents.map(doc => ({
+            ...doc,
+            recipeImg: doc.recipeImg ? previewFile(doc.recipeImg) : ''
+        }));
+
+        return recipesWithUrls.map(mapDocumentToRecipe);
     }
     catch (error) {
         console.error("Error fetching current user recipes:", error);
