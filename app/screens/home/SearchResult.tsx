@@ -1,21 +1,31 @@
-import React, { useEffect, useState, } from 'react';
+// Hooks
+import React, { useEffect, useState } from 'react';
+
+// Components
 import { View, StyleSheet, FlatList } from 'react-native';
-import RecipePost from '../../components/reuse/RecipePost';
-import { Loading } from './../../components';
-import { searchRecipes } from './../../services/api/recipes';
-import { Recipe } from '../../interfaces/recipe';
-import { spacings } from '../../utils/CulinaStyles';
+import { LayoutOnePost } from '@screens/recipeLayout/LayoutOne';
+import { LayoutTwoPost } from '@screens/recipeLayout/LayoutTwo';
+import { Loading } from '@components/index';
+
+// Other
+import { searchRecipes } from '@services/api/recipes';
+import { Recipe } from '@interfaces/recipe';
+import { spacings } from '@utils/CulinaStyles';
 
 interface SearchResultProps {
     q: string;
+    ls: number;
+    hs: number;
+    t: string[];
+    a: boolean;
 }
 
-const SearchResult: React.FC<SearchResultProps> = ({ q }) => {
+const SearchResult: React.FC<SearchResultProps> = ({ q, ls, hs, t, a }) => {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (q !== "") {
+        if (q !== "" || t.length > 0) {
             searching();
         }
     }, [q]);
@@ -23,8 +33,8 @@ const SearchResult: React.FC<SearchResultProps> = ({ q }) => {
     const searching = async () => {
         setLoading(true);
 
-         try {
-            const result = await searchRecipes(q);
+        try {
+            const result = await searchRecipes(q, ls, hs, t, a);
             setRecipes(result);
         } catch (error) {
             console.error("Error loading recipes:", error);
@@ -36,21 +46,33 @@ const SearchResult: React.FC<SearchResultProps> = ({ q }) => {
         <View style={[styles.searchResult, spacings.p8]}>
             {loading ? (
                 <Loading />
-            ): (
+            ) : (
                 <FlatList
                     data={recipes}
                     keyExtractor={(item) => item.$id}
-                    renderItem={({ item }) => (
-                        <RecipePost
-                            recipeId={item.$id}
-                            avatar={item.author.avatar}
-                            author={item.author.fullname}
-                            datePost={item.$createdAt}
-                            thumbnail={item.recipeImg}
-                            title={item.title}
-                            subtitle={item.subtitle}
-                        />
-                    )}
+                    renderItem={({ item, index }) => {
+                        return item.layout === "one" ? (
+                            <LayoutOnePost
+                                seq={index}
+                                recipeId={item.$id}
+                                author={item.author}
+                                datePost={item.$createdAt}
+                                recipeImg={item.recipeImg}
+                                title={item.title}
+                                description={item.description}
+                            />
+                        ) : (
+                            <LayoutTwoPost
+                                seq={index}
+                                recipeId={item.$id}
+                                author={item.author}
+                                datePost={item.$createdAt}
+                                recipeImg={item.recipeImg}
+                                title={item.title}
+                                description={item.description}
+                            />
+                        );
+                    }}
                     showsVerticalScrollIndicator={false}
                     pagingEnabled={true}
                     snapToAlignment="start"

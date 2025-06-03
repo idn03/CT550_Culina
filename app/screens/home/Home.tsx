@@ -7,10 +7,18 @@ import SearchResult from './SearchResult';
 
 const HomeScreen = () => {
     const [query, setQuery] = useState<string>("");
+    const [lowScore, setLowScore] = useState(0);
+    const [highScore, setHighScore] = useState(8);
+    const [topics, setTopics] = useState<string[]>([]);
+    const [advance, setAdvance] = useState(false);
 
-    const handleSearch = (query: string) => {
+    const handleSearch = (query: string, lowScore: number, highScore: number, topics: string[], advance: boolean) => {
         setQuery(query);
-        console.log("User searched for:", query);
+        setLowScore(lowScore);
+        setHighScore(highScore);
+        setTopics(topics);
+        setAdvance(advance);
+        console.log("User searched for: ", query, lowScore, highScore, topics, advance);
     };
 
     return (
@@ -19,15 +27,19 @@ const HomeScreen = () => {
 
             <SearchBar onSearch={handleSearch} />
 
-            {query !== "" ? <SearchResult q={query} /> : <Newfeed />}
+            {query !== "" ?
+                <SearchResult q={query} ls={lowScore} hs={highScore} t={topics} a={advance} />
+                :
+                <Newfeed />
+            }
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
-        width: '100%', 
+        flex: 1,
+        width: '100%',
         position: 'relative',
         backgroundColor: '#FFF',
     },

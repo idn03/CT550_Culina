@@ -4,7 +4,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 // Components
 import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { Loading } from '@components/index';
-import RecipePost from '@/components/reuse/RecipePost';
+import { LayoutOnePost } from '@screens/recipeLayout/LayoutOne';
+import { LayoutTwoPost } from '@screens/recipeLayout/LayoutTwo';
 
 // Other
 import { fetchNewestRecipes } from '@services/api/recipes';
@@ -20,7 +21,7 @@ const Newfeed = () => {
 
     const loadNewfeed = async () => {
         setLoading(true);
-        
+
         try {
             const result = await fetchNewestRecipes();
             setRecipes(result);
@@ -48,26 +49,38 @@ const Newfeed = () => {
                 <FlatList
                     data={recipes}
                     keyExtractor={(item) => item.$id}
-                    renderItem={({ item, index }) => (
-                        <RecipePost
-                            seq={index}
-                            recipeId={item.$id}
-                            author={item.author}
-                            datePost={item.$createdAt}
-                            recipeImg={item.recipeImg}
-                            title={item.title}
-                            description={item.description}
-                        />
-                    )}
+                    renderItem={({ item, index }) => {
+                        return item.layout === "one" ? (
+                            <LayoutOnePost
+                                seq={index}
+                                recipeId={item.$id}
+                                author={item.author}
+                                datePost={item.$createdAt}
+                                recipeImg={item.recipeImg}
+                                title={item.title}
+                                description={item.description}
+                            />
+                        ) : (
+                            <LayoutTwoPost 
+                                seq={index}
+                                recipeId={item.$id}
+                                author={item.author}
+                                datePost={item.$createdAt}
+                                recipeImg={item.recipeImg}
+                                title={item.title}
+                                description={item.description}
+                            />
+                        );
+                    }}
                     showsVerticalScrollIndicator={false}
                     pagingEnabled={true}
                     snapToAlignment="start"
                     refreshControl={
-                        <RefreshControl 
-                            refreshing={refreshing} 
-                            onRefresh={onRefresh} 
-                            colors={["#333"]} 
-                            style={{marginTop: -20}}
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            colors={["#333"]}
+                            style={{ marginTop: -20 }}
                         />
                     }
                 />
@@ -79,7 +92,7 @@ const Newfeed = () => {
 };
 
 const styles = StyleSheet.create({
-    newFeedContainer: {flex: 1},
+    newFeedContainer: { flex: 1 },
 });
 
 export default Newfeed;
