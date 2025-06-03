@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoadingScreen from '@/screens/Loading';
 import DrawerNavigator from './DrawerNavigator';
 import SignUpScreen from '@screens/SignUp';
 import LoginScreen from '@screens/Login';
@@ -8,6 +9,7 @@ import EditRecipeScreen from '@screens/recipeLayout/editRecipe/EditRecipe';
 import { useGlobalContext } from '@utils/GlobalProvider';
 
 export type StackParamList = {
+    Loading: undefined;
     Login: undefined;
     SignUp: undefined;
     Drawer: undefined;
@@ -19,16 +21,15 @@ export type StackParamList = {
 const Stack = createNativeStackNavigator<StackParamList>();
 
 const StackNavigator = () => {
-    const { isLoggedIn } = useGlobalContext();
-
     return (
         <Stack.Navigator
-            initialRouteName={isLoggedIn ? "Drawer" : "Login"}
+            initialRouteName="Loading"
             screenOptions={({ route }) => ({
                 headerShown: false,
                 animation: route.name === "Login" ? 'slide_from_left' : 'slide_from_right',
             })}
         >
+            <Stack.Screen name="Loading" component={LoadingScreen} />
             <Stack.Screen name="Drawer" component={DrawerNavigator} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
