@@ -47,6 +47,8 @@ export const fetchNewestRecipes = async (): Promise<Recipe[]> => {
             recipeImg: doc.recipeImg ? previewFile(doc.recipeImg) : ''
         }));
 
+        console.log("Newest Recipes: ", newestRecipes.documents);
+
         return newestRecipes.documents.map(mapDocumentToRecipe);
     }
     catch (error) {
@@ -164,17 +166,37 @@ export const createRecipe = async (recipeData: AddRecipeForm): Promise<void> => 
     }
 };
 
-export const searchRecipes = async (query: string): Promise<Recipe[]> => {
+export const searchRecipes = async (
+    query: string, 
+    lowScore: number, 
+    highScore: number, 
+    topics: string[],
+    advance: boolean
+): Promise<Recipe[]> => {
     try {
-        const searchQuery = Query.or([
-            Query.search("title", query),
-            Query.contains("ingredients", query)
-        ]);
+        console.log(query, lowScore, highScore, topics, advance);
+        let queries = [
+            Query.or([
+                Query.search("title", query),
+                Query.contains("ingredients", query)
+            ])
+        ];
+
+        if (advance) {
+            if (lowScore > 0 || highScore < 8) {
+                queries.push(Query.greaterThanEqual("score", lowScore));
+                queries.push(Query.lessThanEqual("score", highScore));
+            }
+
+            if (topics.length > 0) {
+                queries.push(Query.contains("topics", topics));
+            }
+        }
 
         const response = await database.listDocuments(
             dbConfig.db,
             dbConfig.collection.recipes,
-            [searchQuery]
+            queries
         );
 
         console.log('Result: ', response.documents);

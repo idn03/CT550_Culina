@@ -14,10 +14,11 @@ export interface Recipe {
 }
 
 export interface SimpleRecipe {
+    $id: string;
     title: string;
     description: string;
-    ingredients: string[];
     topics: string[];
+    $createdAt: string;
 }
 
 export interface RecipePostInfo {

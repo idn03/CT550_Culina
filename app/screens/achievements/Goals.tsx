@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
-import { InriaTitle } from './../../components';
-import { totalGoals } from './../../services/api/achievements';
-import { useGlobalContext } from './../../utils/GlobalProvider';
+import { View, StyleSheet } from 'react-native';
+import { InriaTitle } from '@components/index';
+import { totalGoals } from '@services/api/achievements';
+import { useGlobalContext } from '@utils/GlobalProvider';
 
 const Goals = () => {
     const [total, setTotal] = useState<string>('0');

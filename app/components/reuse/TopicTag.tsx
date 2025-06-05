@@ -5,7 +5,7 @@ import { spacings } from '@utils/CulinaStyles';
 
 interface TopicTagProps {
     topic: string;
-    onPress: () => void;
+    onPress?: () => void;
     selected?: boolean;
 };
 

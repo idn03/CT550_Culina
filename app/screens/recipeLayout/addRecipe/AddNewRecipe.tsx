@@ -13,14 +13,15 @@ import {
     KeyboardAvoidingView,
     Platform
 } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
     Header,
     Row,
     InriaTitle,
     KuraleTitle,
     NormalText,
+    TextBold,
     LayoutSelector,
+    TopicTag,
     Line,
     Loading
 } from '@components/index';
@@ -30,10 +31,9 @@ import InputInstructions from '@/components/reuse/InputInstructions';
 
 // Other
 import { uploadImage } from '@utils/Helper';
-import { createRecipe } from '@services/api/recipes';
+import { createRecipe, dummyTopics } from '@services/api/recipes';
 import { fetchCurrentUser } from '@services/api/users';
 import { useGlobalContext } from '@utils/GlobalProvider';
-import CulinaImgs from '@assets/index';
 import { AddRecipeForm } from '@/interfaces/recipe';
 import { spacings, shadow } from '@utils/CulinaStyles';
 
@@ -43,6 +43,7 @@ const AddNewRecipe: React.FC = () => {
         fullname: '',
     });
     const [imageUri, setImageUri] = useState({ id: '1', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png' });
+    const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
     const [form, setForm] = useState<AddRecipeForm>({
         layout: 'one',
         title: '',
@@ -124,10 +125,10 @@ const AddNewRecipe: React.FC = () => {
                     <View style={spacings.p8}>
                         <InriaTitle>Choose Layout</InriaTitle>
 
-                        <LayoutSelector 
+                        <LayoutSelector
                             selectedLayout={form.layout}
                             onLayoutSelect={(selected) => {
-                                setForm({...form, layout: selected });
+                                setForm({ ...form, layout: selected });
                             }}
                         />
 
@@ -177,6 +178,31 @@ const AddNewRecipe: React.FC = () => {
                             />
                         </View>
 
+                        <Row style={{ ...spacings.mt3, ...spacings.mh3 }}>
+                            <TextBold>Topics</TextBold>
+                            <ScrollView
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                style={spacings.ml3}
+                            >
+                                {dummyTopics.map((topic, index) => (
+                                    <TopicTag
+                                        key={index}
+                                        topic={topic.title}
+                                        selected={selectedTopics.includes(topic.title)}
+                                        onPress={() => {
+                                            setSelectedTopics(prev => {
+                                                if (prev.includes(topic.title)) {
+                                                    return prev.filter(t => t !== topic.title);
+                                                }
+                                                return [...prev, topic.title];
+                                            });
+                                        }}
+                                    />
+                                ))}
+                            </ScrollView>
+                        </Row>
+
                         <Line />
 
                         <View>
@@ -189,7 +215,7 @@ const AddNewRecipe: React.FC = () => {
 
                         <View>
                             <InriaTitle>Instructions</InriaTitle>
-                            <InputInstructions 
+                            <InputInstructions
                                 instructions={form.instructions}
                                 setInstructions={(instructions) => setForm({ ...form, instructions })}
                             />

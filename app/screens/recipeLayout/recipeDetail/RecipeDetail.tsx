@@ -1,34 +1,13 @@
 // Hooks
 import { useState, useEffect } from 'react';
-import {
-    NavigationProp,
-    useNavigation,
-} from '@react-navigation/native';
 
 // Components
 import {
     View,
-    StyleSheet,
-    Image,
-    ScrollView
+    StyleSheet
 } from 'react-native';
 import {
-    MenuProvider,
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger
-} from 'react-native-popup-menu';
-import Feather from '@expo/vector-icons/Feather';
-import {
     StackHeader,
-    Author,
-    KuraleTitle,
-    InriaTitle,
-    NormalText,
-    Row,
-    TextBold,
-    Line,
     Loading
 } from '@components/index';
 import { LayoutOneDetail } from '../LayoutOne';
@@ -36,23 +15,19 @@ import { LayoutOneDetail } from '../LayoutOne';
 // Other
 import { RouteProp } from '@react-navigation/native';
 import { StackParamList } from '@navigate/StackNavigator';
-import { deleteRecipe, isOwnedCheck, fetchRecipeDetail, getRecipeScore } from '@services/api/recipes';
+import { isOwnedCheck, fetchRecipeDetail, getRecipeScore } from '@services/api/recipes';
 import { Recipe } from '@interfaces/recipe';
-import { formatDate } from '@utils/Helper';
-import { spacings, shadow } from '@utils/CulinaStyles';
 import { useGlobalContext } from '@utils/GlobalProvider';
 
 type RecipeDetailScreenRouteProp = RouteProp<StackParamList, 'RecipeDetail'>;
 
 const RecipeDetailScreen = ({ route }: { route: RecipeDetailScreenRouteProp }) => {
-    const navigation: NavigationProp<StackParamList> = useNavigation();
     const { recipeId } = route.params;
     const [recipeData, setRecipeData] = useState<Recipe>();
     const [isOwned, setIsOwned] = useState(false);
     const [score, setScore] = useState(0);
     const [loading, setLoading] = useState(false);
-    const datePost = recipeData ? formatDate(recipeData.$createdAt) : '';
-    const { refresh, triggerRefresh } = useGlobalContext();
+    const { refresh } = useGlobalContext();
 
     useEffect(() => {
         const loadRecipeDetail = async () => {
@@ -106,6 +81,7 @@ const RecipeDetailScreen = ({ route }: { route: RecipeDetailScreenRouteProp }) =
                     <LayoutOneDetail 
                         recipeData={recipeData}
                         score={score}
+                        isOwned={isOwned}
                     />
                 ) : (
                     <View></View>

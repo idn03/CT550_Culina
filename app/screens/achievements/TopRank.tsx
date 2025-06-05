@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Row, InriaTitle, TextBold, NormalText } from './../../components';
-import { getTopRank } from './../../services/api/achievements';
-import { useGlobalContext } from './../../utils/GlobalProvider';
-import { UserAchievement } from './../../interfaces/user';
+import { Row, InriaTitle, TextBold, NormalText } from '@components/index';
+import { getTopRank } from '@services/api/achievements';
+import { useGlobalContext } from '@utils/GlobalProvider';
+import { UserAchievement } from '@interfaces/user';
 
 const TopRank = () => {
     const [topRank, setTopRank] = useState<UserAchievement[]>([]);

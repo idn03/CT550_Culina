@@ -17,4 +17,6 @@ export { default as Author } from './reuse/Author';
 export { default as LayoutSelector } from './reuse/LayoutSelector';
 export { default as InputIngredients } from './reuse/InputIngredients';
 export { default as InputInstructions } from './reuse/InputInstructions';
+export { default as ImageUploader } from './reuse/ImageUploader';
+export { default as SimplePost } from './reuse/SimplePost';
 
