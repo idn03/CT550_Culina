@@ -92,13 +92,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderWidth: 1,
         borderColor: '#33333333',
-        borderRadius: 10,
+        borderRadius: 12,
     },
     thumbnail: {
         height: 48,
         width: 48,
     },
-
 });
 
 export default AchievementList;

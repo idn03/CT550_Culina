@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import Slider from 'rn-range-slider';
 import Feather from '@expo/vector-icons/Feather';
-import { Row, NormalText, TextBold, TopicTag } from './../../components';
+import { Row, NormalText, TextBold, TopicTag } from '@components/index';
 
 // Other
-import { dummyTopics } from '../../services/api/recipes';
-import { spacings } from './../../utils/CulinaStyles';
+import { dummyTopics } from '@services/api/recipes';
+import { spacings } from '@utils/CulinaStyles';
 
 interface SearchBarProps {
     onSearch: (

@@ -54,12 +54,14 @@ const ProfileScreen = () => {
 
     const loadUserRecipes = async () => {
         const recipeFetched = await fetchCurrentUserRecipes();
-        if (recipeFetched && profile) {
-            setRecipes(recipeFetched);
-            setProfile({
-                ...profile,
-                totalRecipe: recipeFetched.length,
-            });
+        if (profile) {
+            if (recipeFetched) {
+                setRecipes(recipeFetched);
+                setProfile({
+                    ...profile,
+                    totalRecipe: recipeFetched.length,
+                });
+            }
         }
         else {
             console.log("There are no user recipe");
@@ -109,9 +111,9 @@ const ProfileScreen = () => {
                         totalSaved={profile.totalSaved}
                     />
 
-                    <Line style={{...spacings.mv6}} />
+                    <Line style={{ ...spacings.mv6 }} />
 
-                    <View style={{flex: 1}}>
+                    <View style={{ flex: 1 }}>
                         <AccountRecipes
                             recipes={selected === 'l' ? recipes : savedRecipes}
                             loading={loading}

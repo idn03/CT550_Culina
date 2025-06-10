@@ -2,7 +2,9 @@ import React from 'react';
 import { View, FlatList, Pressable } from 'react-native';
 import { InriaTitle, Row, Loading, SimplePost } from '@components/index';
 import { Recipe } from '@interfaces/recipe';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { spacings, shadow } from '@utils/CulinaStyles';
+import { useGlobalContext } from '@utils/GlobalProvider';
 
 interface AccountRecipesProps {
     recipes: Recipe[];
@@ -12,6 +14,8 @@ interface AccountRecipesProps {
 }
 
 const AccountRecipes: React.FC<AccountRecipesProps> = ({ recipes, loading, selected, setSelected }) => {
+    const { triggerRefresh } = useGlobalContext();
+
     return (
         <View style={{ flex: 1 }}>
             <Row style={{ justifyContent: 'space-evenly', marginBottom: 10 }}>
@@ -19,7 +23,7 @@ const AccountRecipes: React.FC<AccountRecipesProps> = ({ recipes, loading, selec
                     <InriaTitle
                         style={{
                             opacity: selected === 'l' ? 1 : 0.6,
-                            fontSize: selected === 'l' ? 28 : 22,
+                            fontSize: selected === 'l' ? 24 : 20,
                             ...(selected === 'l' ? shadow.textShadow : {}),
                         }}
                     >Your Recipes</InriaTitle>
@@ -29,17 +33,20 @@ const AccountRecipes: React.FC<AccountRecipesProps> = ({ recipes, loading, selec
                     <InriaTitle
                         style={{
                             opacity: selected === 'r' ? 1 : 0.6,
-                            fontSize: selected === 'r' ? 28 : 22,
+                            fontSize: selected === 'r' ? 24 : 20,
                             ...(selected === 'r' ? shadow.textShadow : {}),
                         }}
                     >Saved Recipes</InriaTitle>
                 </Pressable>
+                <Pressable style={spacings.mt1} onPress={triggerRefresh}>
+                    <MaterialCommunityIcons name="reload" size={24} color="#333" />
+                </Pressable>
             </Row>
 
-            { loading && recipes.length === 0 ? (
+            {loading && recipes.length === 0 ? (
                 <Loading />
             ) : (
-                <FlatList 
+                <FlatList
                     data={recipes}
                     keyExtractor={(item) => item.$id}
                     renderItem={({ item }) => (
@@ -54,7 +61,7 @@ const AccountRecipes: React.FC<AccountRecipesProps> = ({ recipes, loading, selec
                 />
             )}
 
-            {/* <View style={[spacings.m15]}></View> */}
+            <View style={[spacings.m15]}></View>
         </View>
     );
 }
