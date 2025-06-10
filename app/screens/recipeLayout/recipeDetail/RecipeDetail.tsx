@@ -8,9 +8,12 @@ import {
 } from 'react-native';
 import {
     StackHeader,
+    Line,
     Loading
-} from '@components/index';
+} from '@/components';
 import { LayoutOneDetail } from '../LayoutOne';
+import RnS from './RnS';
+import Comments from './Comments';
 
 // Other
 import { RouteProp } from '@react-navigation/native';
@@ -18,6 +21,7 @@ import { StackParamList } from '@navigate/StackNavigator';
 import { isOwnedCheck, fetchRecipeDetail, getRecipeScore } from '@services/api/recipes';
 import { Recipe } from '@interfaces/recipe';
 import { useGlobalContext } from '@utils/GlobalProvider';
+import { spacings } from '@/utils/CulinaStyles';
 
 type RecipeDetailScreenRouteProp = RouteProp<StackParamList, 'RecipeDetail'>;
 
@@ -78,14 +82,21 @@ const RecipeDetailScreen = ({ route }: { route: RecipeDetailScreenRouteProp }) =
 
             {recipeData && (
                 recipeData.layout === 'one' ? (
-                    <LayoutOneDetail 
+                    <LayoutOneDetail
                         recipeData={recipeData}
                         score={score}
                         isOwned={isOwned}
-                    />
+                    >
+                        <RnS recipeId={recipeData.$id} />
+
+                        <Comments recipeId={recipeData.$id} avatar={''} fullname={''} />
+                    </LayoutOneDetail>
                 ) : (
                     <View></View>
-                ))}
+                ))
+            }
+
+            <View style={spacings.mv5}></View>
         </View>
     );
 };

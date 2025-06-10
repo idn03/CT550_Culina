@@ -18,9 +18,9 @@ import {
     Row,
     InriaTitle,
     KuraleTitle,
-    NormalText,
     TextBold,
     LayoutSelector,
+    ImageUploader,
     TopicTag,
     Line,
     Loading
@@ -30,7 +30,6 @@ import InputIngredients from '@/components/reuse/InputIngredients';
 import InputInstructions from '@/components/reuse/InputInstructions';
 
 // Other
-import { uploadImage } from '@utils/Helper';
 import { createRecipe, dummyTopics } from '@services/api/recipes';
 import { fetchCurrentUser } from '@services/api/users';
 import { useGlobalContext } from '@utils/GlobalProvider';
@@ -132,21 +131,11 @@ const AddNewRecipe: React.FC = () => {
                             }}
                         />
 
-                        <View style={spacings.mt5}>
-                            <InriaTitle>Upload Image</InriaTitle>
-                            <Pressable onPress={async () => {
-                                const result = await uploadImage(form.layout);
-                                setImageUri({
-                                    id: result?.id || '',
-                                    uri: result?.url || '',
-                                });
-                            }}
-                                style={[styles.uploadImg, spacings.mt5]}
-                            >
-                                <Image resizeMode='contain' source={{ uri: imageUri.uri }} style={styles.preview} />
-                                <NormalText>Choose your Image</NormalText>
-                            </Pressable>
-                        </View>
+                        <ImageUploader 
+                            imageUri={imageUri}
+                            setImageUri={setImageUri}
+                            layout={form.layout}
+                        />
 
                         <View style={spacings.mt5}>
                             <Row style={{ justifyContent: 'space-between' }}>

@@ -24,6 +24,7 @@ import Feather from '@expo/vector-icons/Feather';
 import {
     Row,
     Avatar,
+    TopicTag,
     Line,
     KuraleTitle,
     InriaTitle,
@@ -67,8 +68,8 @@ export const LayoutOnePost: React.FC<RecipePostInfo> = ({ seq, recipeId, author,
         >
             <Row style={{ ...styles.postHeader, ...spacings.mh5 }}>
                 <Row>
-                    <Image source={{ uri: author.avatar }} style={[styles.postAvatar, spacings.mr2]} />
-                    <Row style={spacings.mb3}>
+                    <Avatar size={63} uri={author.avatar} />
+                    <Row style={{ ...spacings.mb3, ...spacings.ml2 }}>
                         <NormalText>Posted by </NormalText>
                         <TextBold>{author.fullname}</TextBold>
                     </Row>
@@ -77,7 +78,7 @@ export const LayoutOnePost: React.FC<RecipePostInfo> = ({ seq, recipeId, author,
             </Row>
             <Image source={{ uri: recipeImg }} style={[styles.postThumbnail, shadow.boxShadow]} />
 
-            <KuraleTitle style={styles.postText}>{title}</KuraleTitle>
+            <KuraleTitle style={{ ...styles.postText, ...shadow.textShadow }}>{title}</KuraleTitle>
             <KuraleTitle style={{ ...styles.postText, fontSize: 20 }}>{`${score} / 10`}</KuraleTitle>
             <TextBold style={styles.postText}>Description:</TextBold>
             <NormalText style={styles.postText}>{description}</NormalText>
@@ -85,7 +86,12 @@ export const LayoutOnePost: React.FC<RecipePostInfo> = ({ seq, recipeId, author,
     );
 };
 
-export const LayoutOneDetail = ({ recipeData, score, isOwned }: { recipeData: Recipe, score: number, isOwned: boolean }) => {
+export const LayoutOneDetail: React.FC<{
+    recipeData: Recipe;
+    score: number;
+    isOwned: boolean;
+    children?: React.ReactNode;
+}> = ({ recipeData, score, isOwned, children }) => {
     const navigation: NavigationProp<StackParamList> = useNavigation();
     const datePost = recipeData ? formatDate(recipeData.$createdAt) : '';
     const recipeId = recipeData.$id ? recipeData.$id : '';
@@ -105,59 +111,60 @@ export const LayoutOneDetail = ({ recipeData, score, isOwned }: { recipeData: Re
             >
                 <View style={[spacings.pv5, spacings.ph8]}>
                     <Row style={{ justifyContent: 'space-between', ...spacings.mv3 }}>
-                        <Avatar uri={recipeData.author.avatar} />
-                    </Row>
-
-                    <View>
                         <Row>
-                            <NormalText>Posted by </NormalText>
-                            <TextBold>{recipeData.author.fullname}</TextBold>
-                        </Row>
-                        <NormalText>{datePost}</NormalText>
-                    </View>
-
-                    {isOwned && (
-                        <MenuProvider style={{ alignSelf: 'flex-end' }}>
-                            <View style={[spacings.pv4]}>
-                                <Menu>
-                                    <MenuTrigger>
-                                        <Feather name="more-horizontal" size={28} color="#333" />
-                                    </MenuTrigger>
-
-                                    <MenuOptions customStyles={optionsStyles}>
-                                        <MenuOption onSelect={() => navigation.navigate('EditRecipe', { recipeId })}>
-                                            <NormalText>Edit recipe</NormalText>
-                                        </MenuOption>
-                                        <MenuOption
-                                            onSelect={() => {
-                                                deleteRecipe(recipeData.$id, navigation);
-                                                triggerRefresh();
-                                            }}
-                                        >
-                                            <NormalText>Delete</NormalText>
-                                        </MenuOption>
-                                    </MenuOptions>
-                                </Menu>
+                            <Avatar uri={recipeData.author.avatar} />
+                            <View>
+                                <Row>
+                                    <NormalText>Posted by </NormalText>
+                                    <TextBold>{recipeData.author.fullname}</TextBold>
+                                </Row>
+                                <NormalText>{datePost}</NormalText>
                             </View>
-                        </MenuProvider>
-                    )}
+                        </Row>
+
+                        {isOwned && (
+                            <MenuProvider style={{ alignSelf: 'flex-end' }}>
+                                <View style={[spacings.pv4]}>
+                                    <Menu>
+                                        <MenuTrigger>
+                                            <Feather name="more-horizontal" size={28} color="#333" />
+                                        </MenuTrigger>
+
+                                        <MenuOptions customStyles={optionsStyles}>
+                                            <MenuOption onSelect={() => navigation.navigate('EditRecipe', { recipeId })}>
+                                                <NormalText>Edit recipe</NormalText>
+                                            </MenuOption>
+                                            <MenuOption
+                                                onSelect={() => {
+                                                    deleteRecipe(recipeData.$id, navigation);
+                                                    triggerRefresh();
+                                                }}
+                                            >
+                                                <NormalText>Delete</NormalText>
+                                            </MenuOption>
+                                        </MenuOptions>
+                                    </Menu>
+                                </View>
+                            </MenuProvider>
+                        )}
+                    </Row>
 
                     <View style={[spacings.mh5]}>
                         <NormalText>{recipeData.description}</NormalText>
 
-                        <Row>
-                            <NormalText>Topic 1</NormalText>
-                            <NormalText>Topic 2</NormalText>
-                            <NormalText>Topic 3</NormalText>
+                        <Row style={{ ...spacings.mt2, flexWrap: 'wrap' }}>
+                            {recipeData.topics.map((topic, index) => (
+                                <TopicTag key={index} topic={topic} />
+                            ))}
                         </Row>
 
-                        <Line />
                     </View>
+                    <Line style={{ ...spacings.mh5 }} />
 
                     <InriaTitle>Ingredients</InriaTitle>
                     <View style={[spacings.mh8, spacings.mv4]}>
                         {recipeData.ingredients.map((item, index) => (
-                            <NormalText key={index} style={{ ...spacings.mb3 }}>
+                            <NormalText key={`ingredient-${index}`} style={{ ...spacings.mb3 }}>
                                 {item}
                             </NormalText>
                         ))}
@@ -165,19 +172,22 @@ export const LayoutOneDetail = ({ recipeData, score, isOwned }: { recipeData: Re
 
                     <InriaTitle>Step-by-step Guide</InriaTitle>
                     <View style={[spacings.mh8, spacings.mv4]}>
-                        {recipeData.ingredients.map((item, index) => (
-                            <Row>
+                        {recipeData.instructions.map((item, index) => (
+                            <Row key={`step-${index}`} style={spacings.mb3}>
                                 <TextBold style={{ ...spacings.mr2 }}>
                                     {`Step ${(index + 1).toString()}:`}
                                 </TextBold>
-                                <NormalText key={index} style={{ ...spacings.mb3 }}>
+                                <NormalText key={index}>
                                     {item}
                                 </NormalText>
                             </Row>
                         ))}
                     </View>
 
-                    {/* Rating, Comment Here */}
+
+                    <Line style={{ ...spacings.mh5 }} />
+                    
+                    {children}
                 </View>
             </ScrollView>
         </View>
@@ -193,18 +203,11 @@ const styles = StyleSheet.create({
         zIndex: 1,
         justifyContent: 'space-between',
     },
-    postAvatar: {
-        width: 60,
-        height: 60,
-        borderWidth: 3,
-        borderColor: '#B7E0FF',
-        borderRadius: '50%',
-    },
     postThumbnail: {
         width: '100%',
         height: 250,
-        marginTop: -25,
-        borderRadius: 15,
+        marginTop: -24,
+        borderRadius: 16,
     },
     postText: {
         marginBottom: 10,
@@ -213,14 +216,14 @@ const styles = StyleSheet.create({
     title: {
         zIndex: 1,
         marginBottom: -24,
-        borderRadius: 30,
+        borderRadius: 32,
         backgroundColor: '#FFF',
     },
     score: {
         zIndex: 1,
         fontSize: 20,
         marginBottom: -36,
-        borderRadius: 30,
+        borderRadius: 32,
         backgroundColor: '#FFF',
     },
     thumbnail: {
