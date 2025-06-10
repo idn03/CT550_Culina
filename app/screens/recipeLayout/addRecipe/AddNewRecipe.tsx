@@ -78,7 +78,7 @@ const AddNewRecipe: React.FC = () => {
                 topics: form.topics,
                 ingredients: form.ingredients,
                 instructions: form.instructions,
-                recipeImg: imageUri.id
+                recipeImg: imageUri.uri
             });
 
             setForm({
@@ -135,7 +135,7 @@ const AddNewRecipe: React.FC = () => {
                         <View style={spacings.mt5}>
                             <InriaTitle>Upload Image</InriaTitle>
                             <Pressable onPress={async () => {
-                                const result = await uploadImage();
+                                const result = await uploadImage(form.layout);
                                 setImageUri({
                                     id: result?.id || '',
                                     uri: result?.url || '',

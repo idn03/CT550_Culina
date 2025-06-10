@@ -80,7 +80,7 @@ export const goalByUser = async (achieveId: string) => {
                 dbConfig.db,
                 dbConfig.collection.users,
                 currentUser.$id,
-                {achievements: updatedClaimed}
+                { achievements: updatedClaimed }
             );
             console.log(response);
 
@@ -101,7 +101,7 @@ export const goalByUser = async (achieveId: string) => {
 
 export const totalGoals = async (): Promise<string> => {
     const user = await getCurrentUser();
-    
+
     if (!user) return '';
 
     return user.achievements.length;
@@ -134,10 +134,21 @@ export const getTopRank = async (): Promise<UserAchievement[]> => {
 };
 
 export const goalCheck = async () => {
+    const result = [];
     try {
         const userRecipes = await fetchCurrentUserRecipes();
         if (!userRecipes) {
             console.log("No recipes found");
+        }
+        else {
+            if (userRecipes.length >= 5) {
+                result.push('2');
+            }
+
+            userRecipes.forEach((item: Recipe) => {
+                if (item.ingredients.length >= 5) result.push('5');
+                // if (item.$createdAt) result.push('6');
+            });
         }
 
         const savedRecipes = await fetchCurrentUserSavedRecipes();
@@ -150,12 +161,6 @@ export const goalCheck = async () => {
             console.log("No average score found");
         }
 
-        const result = [];
-
-        if (userRecipes.length >= 5) {
-            result.push('2');
-        }
-
         if (savedRecipes.length >= 5) {
             result.push('3');
         }
@@ -163,11 +168,6 @@ export const goalCheck = async () => {
         if (average >= 7) {
             result.push('4');
         }
-
-        userRecipes.forEach((item: Recipe) => {
-            if (item.ingredients.length >= 8) result.push('5');
-            // if (item.$createdAt) result.push('6');
-        });
 
         return result;
     }

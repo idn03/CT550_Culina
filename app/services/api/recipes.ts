@@ -42,13 +42,6 @@ export const fetchNewestRecipes = async (): Promise<Recipe[]> => {
             [Query.orderDesc("$createdAt")]
         );
 
-        newestRecipes.documents.map(doc => ({
-            ...doc,
-            recipeImg: doc.recipeImg ? previewFile(doc.recipeImg) : ''
-        }));
-
-        console.log("Newest Recipes: ", newestRecipes.documents);
-
         return newestRecipes.documents.map(mapDocumentToRecipe);
     }
     catch (error) {
@@ -68,15 +61,7 @@ export const fetchCurrentUserSavedRecipes = async (): Promise<Recipe[]> => {
             [Query.equal('accountId', user.$id)]
         );
 
-        const savedRecipes = savedRecipesResponse.documents.map((doc: any) => {
-            const recipeDoc = doc.recipeId;
-            return {
-                ...recipeDoc,
-                recipeImg: recipeDoc.recipeImg ? previewFile(recipeDoc.recipeImg) : ''
-            };
-        });
-
-        return savedRecipes.map(mapDocumentToRecipe);
+        return savedRecipesResponse.documents.map(mapDocumentToRecipe);
     }
     catch (error) {
         console.error("Error fetching saved recipes:", error);
@@ -96,12 +81,7 @@ export const fetchCurrentUserRecipes = async () => {
             [Query.equal('accountId', user.$id)]
         );
 
-        const recipesWithUrls = userRecipes.documents.map(doc => ({
-            ...doc,
-            recipeImg: doc.recipeImg ? previewFile(doc.recipeImg) : ''
-        }));
-
-        return recipesWithUrls.map(mapDocumentToRecipe);
+        return userRecipes.documents.map(mapDocumentToRecipe);
     }
     catch (error) {
         console.error("Error fetching current user recipes:", error);

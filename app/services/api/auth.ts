@@ -23,7 +23,7 @@ export const createUser = async (email: string, password: string, fullname: stri
                 avatar: 'default_avatar.png',
             }
         );
-        
+
         return newUser;
     }
     catch (error) {
@@ -49,7 +49,7 @@ export const getCurrentUser = async () => {
         if (!Platform || !Platform.OS) {
             throw new Error('Platform not initialized');
         }
-        
+
         const currentAccount = await account.get();
 
         if (!currentAccount || !currentAccount.$id) {
@@ -89,7 +89,10 @@ export const signOut = async (setIsLoggedIn: (value: boolean) => void, setUser: 
                         await removeData(StorageKeys.REMEMBER_ME);
                         await removeData(StorageKeys.accountId);
 
-                        navigation.navigate('Login');
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Login' }]
+                        });
                     } catch (error) {
                         console.error('Logout Failed:', error);
                         Alert.alert("Error", "Failed to log out. Please try again.");

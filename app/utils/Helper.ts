@@ -22,11 +22,13 @@ export const formatDate = (dateString: string): string => {
     return date.toLocaleDateString('vi-VN').replace(/\//g, ' / '); 
 };
 
-export const uploadImage = async (): Promise<{ id: string; url: string } | null> => {
+export const uploadImage = async (layout: string): Promise<{ id: string; url: string } | null> => {
     try {
+        const aspectRatio: [number, number] = layout === 'one' ? [16, 9] : [3, 4];
+        
         const pickerResult = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: aspectRatio,
             quality: 1,
         });
 
