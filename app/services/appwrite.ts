@@ -10,6 +10,7 @@ const dbConfig = {
         savedRecipes: '67c43b690006a92ae6a1',
         ratingRecipe: '67b6e5b1000b0b19a159',
         achievements: '67c43bd5000949bb8f96',
+        comments: '68386edb00054a527cf8',
     },
     storageId: '67a6c19c003620a84cea',
 };

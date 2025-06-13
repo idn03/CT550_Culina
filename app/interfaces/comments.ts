@@ -6,3 +6,9 @@ export interface Comment {
     author: SimpleUser;
     $createdAt: string;
 }
+
+export interface CommentForm {
+    content: string;
+    userId: string;
+    recipeId: string;
+}
