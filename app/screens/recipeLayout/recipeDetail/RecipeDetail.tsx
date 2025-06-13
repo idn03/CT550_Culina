@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import {
     StackHeader,
-    Line,
     Loading
 } from '@/components';
 import { LayoutOneDetail } from '../LayoutOne';
@@ -19,7 +18,9 @@ import Comments from './Comments';
 import { RouteProp } from '@react-navigation/native';
 import { StackParamList } from '@navigate/StackNavigator';
 import { isOwnedCheck, fetchRecipeDetail, getRecipeScore } from '@services/api/recipes';
+import { fetchCurrentUser } from '@/services/api/users';
 import { Recipe } from '@interfaces/recipe';
+import { SimpleUser } from '@/interfaces/user';
 import { useGlobalContext } from '@utils/GlobalProvider';
 import { spacings } from '@/utils/CulinaStyles';
 
@@ -30,6 +31,7 @@ const RecipeDetailScreen = ({ route }: { route: RecipeDetailScreenRouteProp }) =
     const [recipeData, setRecipeData] = useState<Recipe>();
     const [isOwned, setIsOwned] = useState(false);
     const [score, setScore] = useState(0);
+    const [currentUser, setCurrentUser] = useState<SimpleUser>();
     const [loading, setLoading] = useState(false);
     const { refresh } = useGlobalContext();
 
@@ -61,9 +63,25 @@ const RecipeDetailScreen = ({ route }: { route: RecipeDetailScreenRouteProp }) =
             }
         }
 
+        const loadCurrentUser = async () => {
+            try {
+                const result = await fetchCurrentUser();
+
+                setCurrentUser({
+                    $id: result.$id,
+                    avatar: result.avatar,
+                    fullname: result.fullname
+                });
+            }
+            catch (error) {
+                console.error(error);
+            }
+        }
+
         loadRecipeDetail();
         loadScore();
         ownershipCheck();
+        loadCurrentUser();
     }, [recipeId, refresh]);
 
     if (loading) {
@@ -81,7 +99,7 @@ const RecipeDetailScreen = ({ route }: { route: RecipeDetailScreenRouteProp }) =
             <StackHeader>Detail</StackHeader>
 
             {recipeData && (
-                recipeData.layout === 'one' ? (
+                recipeData.layout === 'horizontal' ? (
                     <LayoutOneDetail
                         recipeData={recipeData}
                         score={score}
@@ -89,7 +107,11 @@ const RecipeDetailScreen = ({ route }: { route: RecipeDetailScreenRouteProp }) =
                     >
                         <RnS recipeId={recipeData.$id} />
 
-                        <Comments recipeId={recipeData.$id} avatar={''} fullname={''} />
+                        <Comments 
+                            recipeId={recipeData.$id} 
+                            avatar={currentUser?.avatar ?? ''} 
+                            userId={currentUser?.$id ?? ''} 
+                        />
                     </LayoutOneDetail>
                 ) : (
                     <View></View>

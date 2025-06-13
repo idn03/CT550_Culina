@@ -44,7 +44,7 @@ const AddNewRecipe: React.FC = () => {
     const [imageUri, setImageUri] = useState({ id: '1', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png' });
     const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
     const [form, setForm] = useState<AddRecipeForm>({
-        layout: 'one',
+        layout: 'horizontal',
         title: '',
         description: '',
         recipeImg: imageUri.id,
@@ -81,7 +81,7 @@ const AddNewRecipe: React.FC = () => {
             });
 
             setForm({
-                layout: 'one',
+                layout: 'horizontal',
                 title: '',
                 description: '',
                 recipeImg: imageUri.id,
@@ -246,7 +246,8 @@ const styles = StyleSheet.create({
     },
     inputRecipeTitle: {
         fontSize: 32,
-        color: '#333'
+        color: '#333',
+        maxWidth: 300
     },
 });
 

@@ -91,7 +91,12 @@ export const LayoutTwoPost: React.FC<RecipePostInfo> = ({ seq, recipeId, author,
     );
 }
 
-export const LayoutTwoDetail = ({ recipeData, score, isOwned }: { recipeData: Recipe, score: number, isOwned: boolean }) => {
+export const LayoutTwoDetail: React.FC<{
+    recipeData: Recipe;
+    score: number;
+    isOwned: boolean;
+    children?: React.ReactNode;
+}> = ({ recipeData, score, isOwned, children }) => {
     const navigation: NavigationProp<StackParamList> = useNavigation();
     const datePost = recipeData ? formatDate(recipeData.$createdAt) : '';
     const recipeId = recipeData.$id ? recipeData.$id : '';
@@ -99,7 +104,31 @@ export const LayoutTwoDetail = ({ recipeData, score, isOwned }: { recipeData: Re
 
     return (
         <View style={{ flex: 1 }}>
+            <KuraleTitle
+                style={{
+                    ...styles.title,
+                    ...spacings.pv3,
+                    ...spacings.ph5
+                }}
+            >{recipeData.title}</KuraleTitle>
 
+            <Row>
+                <Image source={{ uri: recipeData?.recipeImg }} style={styles.thumbnail} />
+                <View>
+                    <Row>
+                        <Avatar uri={recipeData.author.avatar} />
+                        <View>
+                            <Row>
+                                <NormalText>Posted by </NormalText>
+                                <TextBold>{recipeData.author.fullname}</TextBold>
+                            </Row>
+                            <NormalText>{datePost}</NormalText>
+                        </View>
+                    </Row>
+
+                    
+                </View>
+            </Row>
         </View>
     );
 }
@@ -117,5 +146,17 @@ const styles = StyleSheet.create({
     postText: {
         marginBottom: 10,
         textAlign: 'center',
+    },
+    title: {
+        zIndex: 1,
+        marginBottom: -24,
+        borderRadius: 32,
+        backgroundColor: '#FFF',
+    },
+    thumbnail: {
+        width: 300,
+        height: '100%',
+        borderTopRightRadius: 12,
+        borderBottomRightRadius: 12,
     },
 });

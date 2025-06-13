@@ -100,7 +100,14 @@ export const LayoutOneDetail: React.FC<{
     return (
         <View style={{ flex: 1 }}>
             <Row style={{ justifyContent: 'space-between', ...spacings.ph8 }}>
-                <KuraleTitle style={{ ...styles.title, ...spacings.pv3, ...spacings.ph5 }}>{recipeData.title}</KuraleTitle>
+                <KuraleTitle 
+                    style={{ 
+                        ...styles.title, 
+                        ...spacings.pv3, 
+                        ...spacings.ph5,
+                        marginBottom: recipeData.title.length > 18 ? -60 : -24
+                    }}
+                >{recipeData.title}</KuraleTitle>
                 <KuraleTitle style={{ ...styles.score, ...spacings.p3 }}>{`${score} / 10`}</KuraleTitle>
             </Row>
             <Image source={{ uri: recipeData?.recipeImg }} style={styles.thumbnail} />
@@ -215,9 +222,9 @@ const styles = StyleSheet.create({
     },
     title: {
         zIndex: 1,
-        marginBottom: -24,
         borderRadius: 32,
         backgroundColor: '#FFF',
+        maxWidth: 260,
     },
     score: {
         zIndex: 1,

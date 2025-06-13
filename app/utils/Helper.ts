@@ -24,7 +24,7 @@ export const formatDate = (dateString: string): string => {
 
 export const uploadImage = async (layout: string): Promise<{ id: string; url: string } | null> => {
     try {
-        const aspectRatio: [number, number] = layout === 'one' ? [16, 9] : [3, 4];
+        const aspectRatio: [number, number] = layout === 'horizontal' ? [16, 9] : [3, 4];
         
         const pickerResult = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,

@@ -51,7 +51,7 @@ const SearchResult: React.FC<SearchResultProps> = ({ q, ls, hs, t, a }) => {
                     data={recipes}
                     keyExtractor={(item) => item.$id}
                     renderItem={({ item, index }) => {
-                        return item.layout === "one" ? (
+                        return item.layout === "horizontal" ? (
                             <LayoutOnePost
                                 seq={index}
                                 recipeId={item.$id}
