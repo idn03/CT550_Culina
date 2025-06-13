@@ -32,7 +32,7 @@ const InputInstructions: React.FC<InputInstructionsProps> = ({ instructions, set
                 <TextInput 
                     placeholder='Type instruction here' 
                     placeholderTextColor={'#33333380'}
-                    maxLength={30}
+                    maxLength={120}
                     style={[styles.inputBar, spacings.m5, spacings.ph4, spacings.pv6]}
                     value={item}
                     onChangeText={setItem}
@@ -49,7 +49,7 @@ const InputInstructions: React.FC<InputInstructionsProps> = ({ instructions, set
             <ScrollView style={[spacings.mv1, spacings.mh5]}>
                 {instructions.map((item, index) => (
                     <Row key={index} style={{...styles.instructionItem, ...spacings.mt1, ...spacings.p2}}>
-                        <Row>
+                        <Row style={{maxWidth: 200}}>
                             <TextBold>{`Step ${index + 1}: `}</TextBold>
                             <NormalText>{item}</NormalText>
                         </Row>

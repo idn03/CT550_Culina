@@ -1,7 +1,6 @@
 import { ID, Permission, Role, Query } from "react-native-appwrite";
 import { Alert } from "react-native";
 import { AddRecipeForm, Recipe } from "@interfaces/recipe";
-import { previewFile } from "@/utils/Helper";
 import {dbConfig, database} from '../appwrite';
 import { getCurrentUser } from './auth';
 
@@ -61,7 +60,12 @@ export const fetchCurrentUserSavedRecipes = async (): Promise<Recipe[]> => {
             [Query.equal('accountId', user.$id)]
         );
 
-        return savedRecipesResponse.documents.map(mapDocumentToRecipe);
+         const savedRecipes = savedRecipesResponse.documents.map((doc: any) => {
+            const recipeDoc = doc.recipeId;
+            return mapDocumentToRecipe(recipeDoc);
+        });
+
+        return savedRecipes;
     }
     catch (error) {
         console.error("Error fetching saved recipes:", error);
@@ -163,13 +167,17 @@ export const searchRecipes = async (
         ];
 
         if (advance) {
-            if (lowScore > 0 || highScore < 8) {
-                queries.push(Query.greaterThanEqual("score", lowScore));
-                queries.push(Query.lessThanEqual("score", highScore));
-            }
+            const scoreQuery = Query.and([
+                Query.greaterThanEqual("score", lowScore),
+                Query.lessThanEqual("score", highScore)
+            ]);
+            queries.push(scoreQuery);
 
             if (topics.length > 0) {
-                queries.push(Query.contains("topics", topics));
+                const topicQuery = Query.and(
+                    topics.map(topic => Query.contains("topics", [topic]))
+                );
+                queries.push(topicQuery);
             }
         }
 

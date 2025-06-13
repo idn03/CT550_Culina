@@ -28,12 +28,7 @@ const ProfileScreen = () => {
     const loadUserInfo = async () => {
         const userFetched = await fetchCurrentUser();
         if (userFetched) {
-            setProfile(prevState => ({
-                ...userFetched,
-                totalRecipe: prevState?.totalRecipe ?? 0,
-                average: prevState?.average ?? 0,
-                totalSaved: prevState?.totalSaved ?? 0
-            }));
+            setProfile(userFetched);
         }
         setLoading(false);
     };
@@ -41,9 +36,12 @@ const ProfileScreen = () => {
     const loadUserAverage = async () => {
         const averageFetched = await getUserAverage();
         if (averageFetched && profile) {
-            setProfile({
-                ...profile,
-                average: averageFetched,
+            setProfile(prevProfile => {
+                if (!prevProfile) return prevProfile;
+                return {
+                    ...prevProfile,
+                    average: averageFetched,
+                };
             });
         }
         else {
@@ -54,16 +52,16 @@ const ProfileScreen = () => {
 
     const loadUserRecipes = async () => {
         const recipeFetched = await fetchCurrentUserRecipes();
-        if (profile) {
-            if (recipeFetched) {
-                setRecipes(recipeFetched);
-                setProfile({
-                    ...profile,
+        if (recipeFetched) {
+            setRecipes(recipeFetched);
+            setProfile(prevProfile => {
+                if (!prevProfile) return prevProfile;
+                return {
+                    ...prevProfile,
                     totalRecipe: recipeFetched.length,
-                });
-            }
-        }
-        else {
+                };
+            });
+        } else {
             console.log("There are no user recipe");
         }
         setLoading(false);
@@ -71,24 +69,41 @@ const ProfileScreen = () => {
 
     const loadUserSavedRecipes = async () => {
         const recipeFetched = await fetchCurrentUserSavedRecipes();
-        if (recipeFetched && profile) {
+        if (recipeFetched) {
             setSavedRecipes(recipeFetched);
-            setProfile({
-                ...profile,
-                totalSaved: recipeFetched.length,
+            setProfile(prevProfile => {
+                if (!prevProfile) return prevProfile;
+                return {
+                    ...prevProfile,
+                    totalSaved: recipeFetched.length,
+                };
             });
-        }
-        else {
+        } else {
             console.log("There are no user saved recipe");
         }
         setLoading(false);
     }
 
     useEffect(() => {
-        loadUserInfo();
-        loadUserSavedRecipes();
-        loadUserRecipes();
-        loadUserAverage();
+        const loadAllData = async () => {
+            setLoading(true);
+            try {
+                await loadUserInfo();
+
+                await Promise.all([
+                    loadUserRecipes(),
+                    loadUserSavedRecipes(),
+                ]);
+
+                await loadUserAverage();
+            } catch (error) {
+                console.error('Error loading profile data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadAllData();
     }, [refresh]);
 
     return (

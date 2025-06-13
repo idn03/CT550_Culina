@@ -13,12 +13,12 @@ interface LayoutSelectorProps {
 const LayoutSelector = ({ selectedLayout, onLayoutSelect }: LayoutSelectorProps) => {
     return (
         <Row style={styles.layouts}>
-            {['one', 'two'].map((layoutType) => (
+            {['horizontal', 'vertical'].map((layoutType) => (
                 <Pressable key={layoutType} onPress={() => onLayoutSelect(layoutType)}>
                     <View style={[spacings.mt2, { alignItems: 'center' }]}>
                         <Image
                             resizeMode='contain'
-                            source={layoutType === 'one' ? CulinaImgs.layoutOne : CulinaImgs.layoutTwo}
+                            source={layoutType === 'horizontal' ? CulinaImgs.layoutOne : CulinaImgs.layoutTwo}
                             style={{ ...styles.layoutItem, opacity: selectedLayout === layoutType ? 1 : 0.3 }}
                         />
                         {selectedLayout === layoutType && (

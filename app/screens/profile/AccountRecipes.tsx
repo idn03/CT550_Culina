@@ -58,6 +58,7 @@ const AccountRecipes: React.FC<AccountRecipesProps> = ({ recipes, loading, selec
                             $createdAt={item.$createdAt}
                         />
                     )}
+                    showsVerticalScrollIndicator={false}
                 />
             )}
 
