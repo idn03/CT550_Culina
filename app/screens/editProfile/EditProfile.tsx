@@ -80,7 +80,6 @@ const EditProfileScreen = () => {
 
     const loadUserInfo = async () => {
         const userFetched = await fetchCurrentUser();
-        setLoading(true);
         if (userFetched) {
             setForm({
                 ...userFetched,
@@ -93,7 +92,17 @@ const EditProfileScreen = () => {
     };
 
     useEffect(() => {
-        loadUserInfo();
+        try {
+            setLoading(true);
+            loadUserInfo();
+        }
+        catch (error) {
+            console.error(error);
+            setLoading(false);
+        }
+        finally {
+            setLoading(false);
+        }
     }, []);
 
     return (

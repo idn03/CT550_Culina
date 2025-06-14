@@ -1,4 +1,4 @@
-# Culina2
+# Culina2 - v2.0
 
 Culina 2 is an enhanced version of a CT466 course project, featuring an improved interface, better user experience, and key functions like recipe posting, cooking guides, filtering, and user following.
 The app integrates AI using the SVD model to deliver personalized recipe recommendations, trained on the Food.com dataset.
@@ -72,7 +72,6 @@ app/
 ├── services/       # API and backend services
 ├── utils/         # Helper functions and utilities
 ├── App.tsx        # Root app component 
-└── Router.tsx     # Navigation setup
 ```
 
 ## Contributing

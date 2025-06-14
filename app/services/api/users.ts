@@ -87,9 +87,13 @@ export const editUserInfo = async (userData: Profile): Promise<void> => {
     if (!user) return;
     console.log(user);
 
-    const updatedUser = {
-        ...user,
-        ...userData
+    const filteredData = {
+      fullname: userData.fullname || user.fullname,
+      age: userData.age || user.age,
+      gender: userData.gender || user.gender,
+      avatar: userData.avatar || user.avatar,
+      email: userData.email || user.email,
+      slogan: userData.slogan || user.slogan,
     };
 
     try {
@@ -97,7 +101,7 @@ export const editUserInfo = async (userData: Profile): Promise<void> => {
             dbConfig.db,
             dbConfig.collection.users,
             user.$id,
-            updatedUser
+            filteredData
         );
 
         console.log(response);

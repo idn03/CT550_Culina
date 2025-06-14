@@ -197,12 +197,12 @@ export const searchRecipes = async (
     }
 };
 
-export const editRecipe = async (data: Recipe, recipeId: string) => {
+export const editRecipe = async (data: Recipe) => {
     try {
         const cr = await database.listDocuments(
             dbConfig.db,
             dbConfig.collection.recipes,
-            [Query.equal('$id', [recipeId])]
+            [Query.equal('$id', [data.$id])]
         );
 
         if (cr.documents.length === 0) {
@@ -215,6 +215,8 @@ export const editRecipe = async (data: Recipe, recipeId: string) => {
             title: data.title || currentRecipe.title,
             description: data.description || currentRecipe.description,
             ingredients: data.ingredients || currentRecipe.ingredients,
+            instructions: data.instructions || currentRecipe.instructions,
+            topics: data.topics || currentRecipe.topics,
             recipeImg: data.recipeImg || currentRecipe.recipeImg,
         };
 
@@ -223,7 +225,7 @@ export const editRecipe = async (data: Recipe, recipeId: string) => {
         const response = await database.updateDocument(
             dbConfig.db,
             dbConfig.collection.recipes,
-            recipeId,
+            data.$id,
             updatedRecipe
         );
 
