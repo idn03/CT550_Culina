@@ -74,7 +74,6 @@ const SearchResult: React.FC<SearchResultProps> = ({ q, ls, hs, t, a }) => {
                         );
                     }}
                     showsVerticalScrollIndicator={false}
-                    pagingEnabled={true}
                     snapToAlignment="start"
                 />
             )}

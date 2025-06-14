@@ -63,13 +63,13 @@ export const LayoutOnePost: React.FC<RecipePostInfo> = ({ seq, recipeId, author,
 
     return (
         <Pressable
-            style={[styles.container, spacings[`mt${seq + 18}`], spacings.mb18]}
+            style={[styles.container, spacings.mv15]}
             onPress={() => navigation.navigate('RecipeDetail', { recipeId })}
         >
             <Row style={{ ...styles.postHeader, ...spacings.mh5 }}>
                 <Row>
                     <Avatar size={63} uri={author.avatar} />
-                    <Row style={{ ...spacings.mb3, ...spacings.ml2 }}>
+                    <Row style={spacings.mb3}>
                         <NormalText>Posted by </NormalText>
                         <TextBold>{author.fullname}</TextBold>
                     </Row>
@@ -100,10 +100,10 @@ export const LayoutOneDetail: React.FC<{
     return (
         <View style={{ flex: 1 }}>
             <Row style={{ justifyContent: 'space-between', ...spacings.ph8 }}>
-                <KuraleTitle 
-                    style={{ 
-                        ...styles.title, 
-                        ...spacings.pv3, 
+                <KuraleTitle
+                    style={{
+                        ...styles.title,
+                        ...spacings.pv3,
                         ...spacings.ph5,
                         marginBottom: recipeData.title.length > 18 ? -60 : -24
                     }}
@@ -193,7 +193,7 @@ export const LayoutOneDetail: React.FC<{
 
 
                     <Line style={{ ...spacings.mh5 }} />
-                    
+
                     {children}
                 </View>
             </ScrollView>

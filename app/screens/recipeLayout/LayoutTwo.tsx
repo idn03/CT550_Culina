@@ -61,27 +61,27 @@ export const LayoutTwoPost: React.FC<RecipePostInfo> = ({ seq, recipeId, author,
 
     return (
         <Pressable
-            style={[styles.container, spacings[`mt${seq + 18}`], spacings.mb18]}
+            style={[styles.container, spacings.mv15]}
             onPress={() => navigation.navigate('RecipeDetail', { recipeId })}
         >
             <View>
-                <Row style={spacings.ml3}>
-                    <Avatar size={63} uri={author.avatar} />
-                    <Row style={{ ...spacings.mb3, ...spacings.ml2 }}>
-                        <NormalText>Posted by </NormalText>
-                        <TextBold>{author.fullname}</TextBold>
+                <Row style={{ ...styles.postHeader, ...spacings.mh5 }}>
+                    <Row>
+                        <Avatar size={63} uri={author.avatar} />
+                        <Row style={spacings.mb3}>
+                            <NormalText>Posted by </NormalText>
+                            <TextBold>{author.fullname}</TextBold>
+                        </Row>
                     </Row>
+                    <NormalText style={spacings.mb3}>{datePostFormated}</NormalText>
                 </Row>
 
                 <Row style={{ marginTop: -24 }}>
                     <Image source={{ uri: recipeImg }} style={[styles.postThumbnail, shadow.boxShadow]} />
 
-                    <View>
-                        <KuraleTitle style={{ ...styles.postText, ...shadow.textShadow }}>{title}</KuraleTitle>
-                        <Row style={{ justifyContent: 'space-between' }}>
-                            <NormalText style={spacings.mb3}>{datePostFormated}</NormalText>
-                            <KuraleTitle style={{ ...styles.postText, fontSize: 20 }}>{`${score} / 10`}</KuraleTitle>
-                        </Row>
+                    <View style={[styles.postContent, spacings.mt3, spacings.ph3]}>
+                        <KuraleTitle style={{ ...spacings.mb10, ...shadow.textShadow }}>{title}</KuraleTitle>
+                        <KuraleTitle style={{ ...styles.postText, fontSize: 20 }}>{`${score} / 10`}</KuraleTitle>
                         <TextBold style={styles.postText}>Description:</TextBold>
                         <NormalText style={styles.postText}>{description}</NormalText>
                     </View>
@@ -126,7 +126,7 @@ export const LayoutTwoDetail: React.FC<{
                         </View>
                     </Row>
 
-                    
+
                 </View>
             </Row>
         </View>
@@ -138,10 +138,18 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 460,
     },
+    postHeader: {
+        zIndex: 1,
+        justifyContent: 'space-between',
+    },
     postThumbnail: {
-        width: '100%',
-        height: 250,
+        width: '56%',
+        height: 360,
         borderRadius: 15,
+    },
+    postContent: {
+        maxWidth: '44%',
+        alignSelf: 'flex-start'
     },
     postText: {
         marginBottom: 10,

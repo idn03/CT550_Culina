@@ -90,7 +90,6 @@ const Newfeed = () => {
                             );
                         }}
                         showsVerticalScrollIndicator={false}
-                        pagingEnabled={true}
                         snapToAlignment="start"
                         refreshControl={
                             <RefreshControl
@@ -101,17 +100,18 @@ const Newfeed = () => {
                             />
                         }
                     />
-                    {/* {returnTop && (
+                    {returnTop && (
                         <TouchableOpacity 
                             style={[styles.toTopBtn, spacings.p4]} 
                             onPress={scrollToTop} 
+                            activeOpacity={0.8}
                         >
                             <Row>
                                 <Feather name="chevrons-up" size={24} color="#333" />
                                 <TextBold>Return to top</TextBold>
                             </Row>
                         </TouchableOpacity>
-                    )} */}
+                    )}
                 </>
             )}
 
@@ -126,6 +126,8 @@ const styles = StyleSheet.create({
         zIndex: 1,
         bottom: 32,
         borderRadius: 20,
+        alignSelf: 'flex-start',
+        backgroundColor: '#FFF'
     }
 });
 

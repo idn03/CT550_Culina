@@ -74,7 +74,7 @@ const AddNewRecipe: React.FC = () => {
                 title: form.title,
                 layout: form.layout,
                 description: form.description,
-                topics: form.topics,
+                topics: selectedTopics,
                 ingredients: form.ingredients,
                 instructions: form.instructions,
                 recipeImg: imageUri.uri
@@ -89,6 +89,8 @@ const AddNewRecipe: React.FC = () => {
                 ingredients: [],
                 instructions: [],
             });
+            setImageUri({ id: '1', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png' });
+            setSelectedTopics([]);
             Alert.alert("Success", "Recipe added successfully!");
             triggerRefresh();
         } catch (error) {
