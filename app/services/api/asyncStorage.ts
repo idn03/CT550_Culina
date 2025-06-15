@@ -2,7 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const StorageKeys = {
     REMEMBER_ME: 'REMEMBER_ME',
-    accountId: 'accountId'
+    accountId: 'accountId',
+    isNewbie: true,
 };
 
 export const storeData = async (key: string, value: string) => {

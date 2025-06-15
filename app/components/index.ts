@@ -19,4 +19,4 @@ export { default as InputIngredients } from './reuse/InputIngredients';
 export { default as InputInstructions } from './reuse/InputInstructions';
 export { default as ImageUploader } from './reuse/ImageUploader';
 export { default as SimplePost } from './reuse/SimplePost';
-
+export { default as TourToolTip } from './reuse/TourToolTip';
