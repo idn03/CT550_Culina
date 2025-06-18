@@ -64,7 +64,7 @@ const Newfeed = () => {
                 <Loading />
             ) : (
                 <CopilotStep
-                    text="This is where the latest recipes from the community are displayed. Swipe vertically to explore more!"
+                    text="This is where the latest recipes from the community are displayed. Swipe vertically to explore more! Tap on post to see detail!"
                     order={3}
                     name="Newfeed"
                 >

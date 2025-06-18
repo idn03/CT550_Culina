@@ -1,9 +1,9 @@
 import { useCopilot } from "react-native-copilot";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import Row from "./Row";
-import KuraleTitle from "./KuraleTitle";
-import NormalText from "../override/Text";
-import TextBold from "../override/TextBold";
+import Row from "../reuse/Row";
+import KuraleTitle from "../reuse/KuraleTitle";
+import NormalText from "./Text";
+import TextBold from "./TextBold";
 import { spacings } from "@/utils/CulinaStyles";
 
 const TourToolTip = () => {

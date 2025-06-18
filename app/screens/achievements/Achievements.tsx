@@ -10,7 +10,7 @@ const AchievementsScreen = () => {
     const [loading, setLoading] = useState(true);
 
     const loadScreen = async () => {
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 2500));
         setLoading(false);
     };
 

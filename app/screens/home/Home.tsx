@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { CopilotStep, walkthroughable, useCopilot } from "react-native-copilot";
 import { Header, TextBold } from '@components/index';
@@ -48,12 +48,6 @@ const HomeScreen = () => {
                     <SearchBar onSearch={handleSearch} />
                 </WalkthroughableView>
             </CopilotStep>
-
-            {/* <Pressable onPress={() => {
-                start();
-            }}>
-                <TextBold>Tour</TextBold>
-            </Pressable> */}
 
             {query !== "" ?
                 <SearchResult q={query} ls={lowScore} hs={highScore} t={topics} a={advance} />

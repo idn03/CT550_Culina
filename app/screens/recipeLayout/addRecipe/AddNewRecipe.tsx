@@ -19,6 +19,7 @@ import {
     InriaTitle,
     KuraleTitle,
     TextBold,
+    NormalText,
     LayoutSelector,
     ImageUploader,
     TopicTag,
@@ -41,7 +42,7 @@ const AddNewRecipe: React.FC = () => {
         avatar: 'default_avatar.png',
         fullname: '',
     });
-    const [imageUri, setImageUri] = useState({ id: '1', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png' });
+    const [imageUri, setImageUri] = useState({ id: 'upload-img', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png' });
     const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
     const [form, setForm] = useState<AddRecipeForm>({
         layout: 'horizontal',
@@ -70,15 +71,29 @@ const AddNewRecipe: React.FC = () => {
         }
 
         try {
-            await createRecipe({
-                title: form.title,
-                layout: form.layout,
-                description: form.description,
-                topics: selectedTopics,
-                ingredients: form.ingredients,
-                instructions: form.instructions,
-                recipeImg: imageUri.uri
-            });
+            console.log(imageUri.id);
+            if (imageUri.id == 'upload-img') {
+                await createRecipe({
+                    title: form.title,
+                    layout: form.layout,
+                    description: form.description,
+                    topics: selectedTopics,
+                    ingredients: form.ingredients,
+                    instructions: form.instructions,
+                    recipeImg: 'https://fra.cloud.appwrite.io/v1/storage/buckets/67a6c19c003620a84cea/files/68502621003bd6f713dd/view?project=67a34d78001b4d38331a&mode=admin'
+                });
+            }
+            else {
+                await createRecipe({
+                    title: form.title,
+                    layout: form.layout,
+                    description: form.description,
+                    topics: selectedTopics,
+                    ingredients: form.ingredients,
+                    instructions: form.instructions,
+                    recipeImg: imageUri.uri
+                });
+            }
 
             setForm({
                 layout: 'horizontal',
@@ -89,7 +104,7 @@ const AddNewRecipe: React.FC = () => {
                 ingredients: [],
                 instructions: [],
             });
-            setImageUri({ id: '1', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png' });
+            setImageUri({ id: 'upload-img', uri: 'https://cdn-icons-png.flaticon.com/128/15781/15781530.png' });
             setSelectedTopics([]);
             Alert.alert("Success", "Recipe added successfully!");
             triggerRefresh();
@@ -133,11 +148,12 @@ const AddNewRecipe: React.FC = () => {
                             }}
                         />
 
-                        <ImageUploader 
+                        <ImageUploader
                             imageUri={imageUri}
                             setImageUri={setImageUri}
                             layout={form.layout}
                         />
+                        <NormalText style={{ textAlign: 'center' }}>If you don't have any photos to illustrate, a system photo will be automatically attached</NormalText>
 
                         <View style={spacings.mt5}>
                             <Row style={{ justifyContent: 'space-between' }}>

@@ -6,11 +6,19 @@ import { CulinaDrawer } from '@components/index';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import BottomTabsNavigator from './BottomTabsNavigator';
+import HistoryScreen from '@/screens/drawerChildren/history/History';
 import HelpScreen from '@screens/drawerChildren/Help';
 import AboutUsScreen from '@screens/drawerChildren/AboutUs';
-import BottomTabsNavigator from './BottomTabsNavigator';
 
-const Drawer = createDrawerNavigator();
+export type DrawerParamList = {
+    Home: undefined;
+    History: undefined;
+    Help: undefined;
+    'About Us': undefined;
+};
+
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 const DrawerNavigator = () => {
 	return (
@@ -30,30 +38,39 @@ const DrawerNavigator = () => {
 				headerShown: false,
 			}}
 		>
-			<Drawer.Screen 
-				name="Home" 
-				component={BottomTabsNavigator} 
+			<Drawer.Screen
+				name="Home"
+				component={BottomTabsNavigator}
 				options={{
 					drawerIcon: () => (
-						<Entypo name="book" size={24} color="#333"/>
+						<Entypo name="book" size={24} color="#333" />
 					),
 				}}
 			/>
-			<Drawer.Screen 
-				name="Help" 
-				component={HelpScreen} 
+			<Drawer.Screen
+				name="History"
+				component={HistoryScreen}
+				options={{
+					drawerIcon: () => (
+						<MaterialIcons name="history" size={24} color="#333" />
+					),
+				}}
+			/>
+			<Drawer.Screen
+				name="Help"
+				component={HelpScreen}
 				options={{
 					drawerIcon: () => (
 						<MaterialIcons name="help" size={24} color="#333" />
 					),
 				}}
 			/>
-			<Drawer.Screen 
-				name="About Us" 
-				component={AboutUsScreen} 
+			<Drawer.Screen
+				name="About Us"
+				component={AboutUsScreen}
 				options={{
 					drawerIcon: () => (
-						<FontAwesome name="lightbulb-o" size={24} color="#333" style={{marginLeft: 4}} />
+						<FontAwesome name="lightbulb-o" size={24} color="#333" style={{ marginLeft: 4 }} />
 					),
 				}}
 			/>

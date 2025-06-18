@@ -13,13 +13,13 @@ const WalkthroughableView = walkthroughable(View);
 const BottomTabs = ({ state, navigation }: any) => {
     const [scaleValues] = useState({
         Main: new Animated.Value(1),
-        AIchef: new Animated.Value(1),
+        Recommender: new Animated.Value(1),
         AddRecipe: new Animated.Value(1),
         Achievements: new Animated.Value(1),
         Profile: new Animated.Value(1),
     });
 
-    type ScreenNames = 'Main' | 'AIchef' | 'AddRecipe' | 'Achievements' | 'Profile';
+    type ScreenNames = 'Main' | 'Recommender' | 'AddRecipe' | 'Achievements' | 'Profile';
 
     const getIconColor = (screenName: string) => {
         if (!state) return '#333';
@@ -47,7 +47,7 @@ const BottomTabs = ({ state, navigation }: any) => {
     return (
         <View style={[styles.container, spacings.p8]}>
             <CopilotStep
-                text="Bottom bar that will help you move between screens through touch operations"
+                text="Bottom bar that will help you move between screens through touch operations."
                 order={4}
                 name="Bottom Tabs"
             >
@@ -64,8 +64,8 @@ const BottomTabs = ({ state, navigation }: any) => {
                                 icon: <Entypo name="book" size={24} color={getIconColor('Main')} style={{ padding: 10 }} />
                             },
                             {
-                                name: 'AIchef',
-                                icon: <MaterialIcons name="cookie" size={24} color={getIconColor('AIchef')} style={{ padding: 10 }} />
+                                name: 'Recommender',
+                                icon: <MaterialIcons name="cookie" size={24} color={getIconColor('Recommender')} style={{ padding: 10 }} />
                             },
                             {
                                 name: 'AddRecipe',

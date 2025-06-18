@@ -6,7 +6,6 @@ import LoginScreen from '@screens/Login';
 import RecipeDetailScreen from '@screens/recipeLayout/recipeDetail/RecipeDetail';
 import EditProfileScreen from '@screens/editProfile/EditProfile';
 import EditRecipeScreen from '@screens/recipeLayout/editRecipe/EditRecipe';
-import { useGlobalContext } from '@utils/GlobalProvider';
 
 export type StackParamList = {
     Loading: undefined;
