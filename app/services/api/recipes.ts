@@ -1,7 +1,7 @@
 import { ID, Permission, Role, Query } from "react-native-appwrite";
 import { Alert } from "react-native";
 import { AddRecipeForm, Recipe } from "@interfaces/recipe";
-import {dbConfig, database} from '../appwrite';
+import { dbConfig, database } from '../appwrite';
 import { getCurrentUser } from './auth';
 
 export const dummyTopics = [
@@ -11,11 +11,15 @@ export const dummyTopics = [
     { id: 'cuisine', title: 'Cuisine', },
     { id: 'healthy', title: 'Healthy', },
     { id: 'vegetables', title: 'Vegetables', },
+    { id: 'meat', title: 'Meat', },
+    { id: 'soup-stews', title: 'Soup Stews', },
+    { id: 'cake', title: 'Cake', },
     { id: 'high-protein', title: 'High Protein', },
     { id: 'low-protein', title: 'Low Protein', },
     { id: 'main-dish', title: 'Main Dish', },
     { id: 'dessert', title: 'Dessert', },
     { id: 'beverage', title: 'Beverage', },
+    { id: 'inexpensive', title: 'Inexpensive', },
     { id: 'spicy', title: 'Spicy', },
     { id: 'kid-friendly', title: 'Kid Friendly', },
 ];
@@ -60,7 +64,7 @@ export const fetchCurrentUserSavedRecipes = async (): Promise<Recipe[]> => {
             [Query.equal('accountId', user.$id)]
         );
 
-         const savedRecipes = savedRecipesResponse.documents.map((doc: any) => {
+        const savedRecipes = savedRecipesResponse.documents.map((doc: any) => {
             const recipeDoc = doc.recipeId;
             return mapDocumentToRecipe(recipeDoc);
         });
@@ -76,7 +80,7 @@ export const fetchCurrentUserSavedRecipes = async (): Promise<Recipe[]> => {
 export const fetchCurrentUserRecipes = async () => {
     try {
         const user = await getCurrentUser();
-    
+
         if (!user) return;
 
         const userRecipes = await database.listDocuments(
@@ -141,7 +145,7 @@ export const createRecipe = async (recipeData: AddRecipeForm): Promise<void> => 
                 Permission.write(Role.user(user.accountId))
             ]
         );
-    
+
         console.log("Recipe created successfully:", response);
     }
     catch (error) {
@@ -151,9 +155,9 @@ export const createRecipe = async (recipeData: AddRecipeForm): Promise<void> => 
 };
 
 export const searchRecipes = async (
-    query: string, 
-    lowScore: number, 
-    highScore: number, 
+    query: string,
+    lowScore: number,
+    highScore: number,
     topics: string[],
     advance: boolean
 ): Promise<Recipe[]> => {
@@ -243,9 +247,9 @@ export const deleteRecipe = async (recipeId: string, navigation: any) => {
         "Delete Recipe",
         "Do you sure you want to delete this recipe?",
         [
-            {text: "Cancel", style: 'cancel'},
+            { text: "Cancel", style: 'cancel' },
             {
-                text: "OK", 
+                text: "OK",
                 onPress: async () => {
                     try {
                         await database.deleteDocument(
@@ -279,10 +283,10 @@ export const getRecipeScore = async (id: string) => {
         if (response.documents.length === 0) {
             return 0;
         }
-        
+
         const totalScore = response.documents.reduce((sum: number, doc: any) => sum + doc.score, 0);
         const averageScore = totalScore / response.documents.length;
-        
+
         return averageScore;
     }
     catch (error) {
@@ -333,7 +337,7 @@ export const ratingRecipe = async (id: string, s: number) => {
                     recipeId: recipeData.$id,
                 }
             );
-    
+
             if (response.$id) {
                 Alert.alert('Success', 'Thanks for rating.');
             }
@@ -377,7 +381,7 @@ export const unsaveRecipe = async (id: string) => {
     try {
         const user = await getCurrentUser();
         const recipeData = await fetchRecipeDetail(id);
-    
+
         if (!user) return;
         if (!recipeData) return;
 
@@ -390,8 +394,8 @@ export const unsaveRecipe = async (id: string) => {
             ]
         );
 
-        const srId = sr.documents[0].$id;       
-        
+        const srId = sr.documents[0].$id;
+
         await database.deleteDocument(
             dbConfig.db,
             dbConfig.collection.savedRecipes,
@@ -411,7 +415,7 @@ export const saveRecipeCheck = async (id: string) => {
     try {
         const user = await getCurrentUser();
         const recipeData = await fetchRecipeDetail(id);
-    
+
         if (!user) return;
         if (!recipeData) return;
 

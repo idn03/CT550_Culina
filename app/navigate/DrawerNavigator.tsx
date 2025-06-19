@@ -11,14 +11,7 @@ import HistoryScreen from '@/screens/drawerChildren/history/History';
 import HelpScreen from '@screens/drawerChildren/Help';
 import AboutUsScreen from '@screens/drawerChildren/AboutUs';
 
-export type DrawerParamList = {
-    Home: undefined;
-    History: undefined;
-    Help: undefined;
-    'About Us': undefined;
-};
-
-const Drawer = createDrawerNavigator<DrawerParamList>();
+const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
 	return (

@@ -3,7 +3,7 @@ import { useCopilot } from "react-native-copilot";
 import { useNavigation } from '@react-navigation/native';
 import { View, StyleSheet, Pressable, ScrollView } from "react-native";
 import { Header, InriaTitle, NormalText, TextBold } from "@components/index";
-import { DrawerParamList } from '@/navigate/DrawerNavigator';
+import { spacings, shadow } from '@/utils/CulinaStyles';
 
 const HelpScreen = () => {
     const { start } = useCopilot();
@@ -13,8 +13,8 @@ const HelpScreen = () => {
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
             <Header>Help</Header>
 
-            <View style={styles.main}>
-                <ScrollView style={{ flex: 1, margin: 40 }} showsVerticalScrollIndicator={false}>
+            <View style={[styles.main, spacings.m8, shadow.boxShadow]}>
+                <ScrollView style={{ flex: 1, ...spacings.m10 }} showsVerticalScrollIndicator={false}>
                     <InriaTitle>Home Screen</InriaTitle>
                     <NormalText>
                         The Home Screen is the main dashboard, where users can explore the
@@ -23,10 +23,7 @@ const HelpScreen = () => {
                         personal account.
                     </NormalText>
                     <Pressable onPress={() => {
-                        // navigation.reset({
-                        //     index: 0,
-                        //     routes: [{ name: 'BottomTabs', params: { screen: 'Main' } }],
-                        // });
+                        navigation.navigate;
                         start();
                     }}>
                         <TextBold>Take a Tour</TextBold>
@@ -67,9 +64,7 @@ const styles = StyleSheet.create({
         flex: 1,
         minHeight: '60%',
         backgroundColor: '#FFF5CD',
-        margin: 30,
         borderRadius: 32,
-        boxShadow: '0 4 4 0 rgba(0,0,0,0.25)',
     }
 });
 
