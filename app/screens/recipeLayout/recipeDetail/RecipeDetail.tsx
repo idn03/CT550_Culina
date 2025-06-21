@@ -11,6 +11,7 @@ import {
     Loading
 } from '@/components';
 import { LayoutOneDetail } from '../LayoutOne';
+import { LayoutTwoDetail } from '../LayoutTwo';
 import RnS from './RnS';
 import Comments from './Comments';
 
@@ -114,7 +115,19 @@ const RecipeDetailScreen = ({ route }: { route: RecipeDetailScreenRouteProp }) =
                         />
                     </LayoutOneDetail>
                 ) : (
-                    <View></View>
+                    <LayoutTwoDetail
+                        recipeData={recipeData}
+                        score={score}
+                        isOwned={isOwned}
+                    >
+                        <RnS recipeId={recipeData.$id} />
+
+                        <Comments 
+                            recipeId={recipeData.$id} 
+                            avatar={currentUser?.avatar ?? ''} 
+                            userId={currentUser?.$id ?? ''} 
+                        />
+                    </LayoutTwoDetail>
                 ))
             }
 

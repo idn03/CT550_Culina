@@ -24,6 +24,7 @@ import Feather from '@expo/vector-icons/Feather';
 import {
     Row,
     Avatar,
+    TopicTag,
     Line,
     KuraleTitle,
     InriaTitle,
@@ -80,7 +81,7 @@ export const LayoutTwoPost: React.FC<RecipePostInfo> = ({ seq, recipeId, author,
                     <Image source={{ uri: recipeImg }} style={[styles.postThumbnail, shadow.boxShadow]} />
 
                     <View style={[styles.postContent, spacings.mt3, spacings.ph3]}>
-                        <KuraleTitle style={{ ...spacings.mb10, ...shadow.textShadow }}>{title}</KuraleTitle>
+                        <KuraleTitle style={{ ...spacings.mb6, ...shadow.textShadow }}>{title}</KuraleTitle>
                         <KuraleTitle style={{ ...styles.postText, fontSize: 20 }}>{`${score} / 10`}</KuraleTitle>
                         <TextBold style={styles.postText}>Description:</TextBold>
                         <NormalText style={styles.postText}>{description}</NormalText>
@@ -103,33 +104,96 @@ export const LayoutTwoDetail: React.FC<{
     const { triggerRefresh } = useGlobalContext();
 
     return (
-        <View style={{ flex: 1 }}>
-            <KuraleTitle
-                style={{
-                    ...styles.title,
-                    ...spacings.pv3,
-                    ...spacings.ph5
-                }}
-            >{recipeData.title}</KuraleTitle>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+            <Row>
+                <KuraleTitle
+                    style={{
+                        ...styles.title,
+                        ...spacings.pv3,
+                        ...spacings.ph5
+                    }}
+                >{recipeData.title}</KuraleTitle>
+                {isOwned && (
+                    <MenuProvider style={{ alignSelf: 'flex-end' }}>
+                        <View style={[spacings.p5]}>
+                            <Menu>
+                                <MenuTrigger>
+                                    <Feather name="more-horizontal" size={28} color="#333" />
+                                </MenuTrigger>
+
+                                <MenuOptions customStyles={optionsStyles}>
+                                    <MenuOption onSelect={() => navigation.navigate('EditRecipe', { recipeId })}>
+                                        <NormalText>Edit recipe</NormalText>
+                                    </MenuOption>
+                                    <MenuOption
+                                        onSelect={() => {
+                                            deleteRecipe(recipeData.$id, navigation);
+                                            triggerRefresh();
+                                        }}
+                                    >
+                                        <NormalText>Delete</NormalText>
+                                    </MenuOption>
+                                </MenuOptions>
+                            </Menu>
+                        </View>
+                    </MenuProvider>
+                )}
+            </Row>
 
             <Row>
                 <Image source={{ uri: recipeData?.recipeImg }} style={styles.thumbnail} />
                 <View>
-                    <Row>
-                        <Avatar uri={recipeData.author.avatar} />
-                        <View>
-                            <Row>
-                                <NormalText>Posted by </NormalText>
-                                <TextBold>{recipeData.author.fullname}</TextBold>
-                            </Row>
-                            <NormalText>{datePost}</NormalText>
+                    <View style={{ justifyContent: 'space-around', flex: 1 }}>
+                        <View style={{ alignItems: 'center', minWidth: 180 }}>
+                            <Avatar uri={recipeData.author.avatar} />
+                            <TextBold>{recipeData.author.fullname}</TextBold>
+                            <NormalText style={{ alignSelf: 'center' }}>{datePost}</NormalText>
                         </View>
-                    </Row>
+                        <KuraleTitle style={{ ...styles.postText, fontSize: 20 }}>{`${score} / 10`}</KuraleTitle>
 
-
+                        <View style={{ alignItems: 'center' }}>
+                            {recipeData.topics.map((topic, index) => (
+                                <TopicTag key={index} topic={topic} />
+                            ))}
+                        </View>
+                    </View>
                 </View>
             </Row>
-        </View>
+
+            <View style={[spacings.mh8, spacings.mv5]}>
+                <NormalText>{recipeData.description}</NormalText>
+
+                <Line style={{ ...spacings.mh5 }} />
+
+                <InriaTitle>Ingredients</InriaTitle>
+                <View style={[spacings.mh8, spacings.mv4]}>
+                    {recipeData.ingredients.map((item, index) => (
+                        <NormalText key={`ingredient-${index}`} style={{ ...spacings.mb3 }}>
+                            {item}
+                        </NormalText>
+                    ))}
+                </View>
+
+                <InriaTitle>Step-by-step Guide</InriaTitle>
+                <View style={[spacings.mh8, spacings.mv4]}>
+                    {recipeData.instructions.map((item, index) => (
+                        <Row key={`step-${index}`} style={spacings.mb3}>
+                            <TextBold style={{ ...spacings.mr2 }}>
+                                {`Step ${(index + 1).toString()}:`}
+                            </TextBold>
+                            <NormalText key={index}>
+                                {item}
+                            </NormalText>
+                        </Row>
+                    ))}
+                </View>
+
+
+                <Line style={{ ...spacings.mh5 }} />
+                
+                {children}
+            </View>
+        </ScrollView>
     );
 }
 
@@ -157,14 +221,20 @@ const styles = StyleSheet.create({
     },
     title: {
         zIndex: 1,
-        marginBottom: -24,
-        borderRadius: 32,
-        backgroundColor: '#FFF',
     },
     thumbnail: {
-        width: 300,
-        height: '100%',
+        width: '56%',
+        height: 360,
         borderTopRightRadius: 12,
         borderBottomRightRadius: 12,
     },
 });
+
+const optionsStyles = {
+    optionsContainer: {
+        backgroundColor: '#FFF',
+        marginLeft: 20,
+        paddingLeft: 10,
+        shadowColor: '#FFF'
+    },
+};

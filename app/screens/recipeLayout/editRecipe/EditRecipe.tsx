@@ -91,7 +91,7 @@ const EditRecipeScreen = ({ route }: { route: EditRecipeScreenRouteProp }) => {
                 instructions: form.instructions,
                 author: user,
                 recipeImg: imageUri.uri,
-                layout: 'default',
+                layout: form.layout,
                 topics: selectedTopics,
                 $createdAt: getCurrentDate(),
             });

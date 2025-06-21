@@ -216,6 +216,7 @@ export const editRecipe = async (data: Recipe) => {
         const currentRecipe = cr.documents[0];
 
         const updatedRecipe = {
+            layout: data.layout || currentRecipe.layout,
             title: data.title || currentRecipe.title,
             description: data.description || currentRecipe.description,
             ingredients: data.ingredients || currentRecipe.ingredients,
@@ -223,8 +224,6 @@ export const editRecipe = async (data: Recipe) => {
             topics: data.topics || currentRecipe.topics,
             recipeImg: data.recipeImg || currentRecipe.recipeImg,
         };
-
-        console.log(updatedRecipe);
 
         const response = await database.updateDocument(
             dbConfig.db,
