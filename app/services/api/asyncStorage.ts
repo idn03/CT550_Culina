@@ -34,7 +34,10 @@ export const removeData = async (key: string) => {
 
 export const clearAll = async () => {
     try {
-        await AsyncStorage.clear();
+        const keys = await AsyncStorage.getAllKeys();
+        if (keys.length > 0) {
+            await AsyncStorage.multiRemove(keys);
+        }
     } catch (error) {
         console.error('Error clearing storage:', error);
         throw error;

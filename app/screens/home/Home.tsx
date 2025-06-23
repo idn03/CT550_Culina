@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
-import { CopilotStep, walkthroughable, useCopilot } from "react-native-copilot";
-import { Header, TextBold } from '@components/index';
+import { View, StyleSheet } from 'react-native';
+import { CopilotStep, walkthroughable } from "react-native-copilot";
+import { Header } from '@components/index';
 import SearchBar from './SearchBar';
 import Newfeed from './Newfeed';
 import SearchResult from './SearchResult';
@@ -14,7 +14,6 @@ const HomeScreen = () => {
     const [highScore, setHighScore] = useState(8);
     const [topics, setTopics] = useState<string[]>([]);
     const [advance, setAdvance] = useState(false);
-    const { start } = useCopilot();
 
     const handleSearch = (query: string, lowScore: number, highScore: number, topics: string[], advance: boolean) => {
         setQuery(query);

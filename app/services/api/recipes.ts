@@ -32,7 +32,11 @@ const mapDocumentToRecipe = (doc: any): Recipe => ({
     topics: doc.topics,
     ingredients: doc.ingredients,
     instructions: doc.instructions,
-    author: doc.accountId,
+    author: {
+        $id: doc.accountId?.$id || '',
+        fullname: doc.accountId?.fullname || '',
+        avatar: doc.accountId?.avatar || '',
+    },
     recipeImg: doc.recipeImg,
     $createdAt: doc.$createdAt,
 });

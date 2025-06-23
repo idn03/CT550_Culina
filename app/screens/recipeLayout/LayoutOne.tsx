@@ -42,7 +42,7 @@ import { useGlobalContext } from '@utils/GlobalProvider';
 import { spacings, shadow } from '@utils/CulinaStyles';
 
 
-export const LayoutOnePost: React.FC<RecipePostInfo> = ({ seq, recipeId, author, datePost, recipeImg, title, description }) => {
+export const LayoutOnePost: React.FC<RecipePostInfo> = ({ recipeId, author, datePost, recipeImg, title, description }) => {
     const navigation: NavigationProp<StackParamList> = useNavigation();
     const [score, setScore] = useState(0);
     const datePostFormated = formatDate(datePost);

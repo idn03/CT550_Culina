@@ -22,7 +22,6 @@ export interface SimpleRecipe {
 }
 
 export interface RecipePostInfo {
-    seq: number;
     recipeId: string;
     author: SimpleUser;
     datePost: string;

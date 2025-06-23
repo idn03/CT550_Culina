@@ -77,7 +77,6 @@ const Newfeed = () => {
                             renderItem={({ item, index }) => {
                                 return item.layout === "horizontal" ? (
                                     <LayoutOnePost
-                                        seq={index}
                                         recipeId={item.$id}
                                         author={item.author}
                                         datePost={item.$createdAt}
@@ -87,7 +86,6 @@ const Newfeed = () => {
                                     />
                                 ) : (
                                     <LayoutTwoPost
-                                        seq={index}
                                         recipeId={item.$id}
                                         author={item.author}
                                         datePost={item.$createdAt}
