@@ -57,7 +57,6 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
                 <Pressable
                     style={[styles.searchBtn, spacings.p3]}
                     onPress={() => {
-                        console.log(query);
                         onSearch(query, lowScore, highScore, selectedTopics, showAdvanced);
                     }}
                 >

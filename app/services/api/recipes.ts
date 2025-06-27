@@ -12,12 +12,14 @@ export const dummyTopics = [
     { id: 'healthy', title: 'Healthy', },
     { id: 'vegetables', title: 'Vegetables', },
     { id: 'meat', title: 'Meat', },
+    { id: 'eggs', title: 'Eggs', },
     { id: 'soup-stews', title: 'Soup Stews', },
     { id: 'cake', title: 'Cake', },
     { id: 'high-protein', title: 'High Protein', },
     { id: 'low-protein', title: 'Low Protein', },
     { id: 'main-dish', title: 'Main Dish', },
     { id: 'dessert', title: 'Dessert', },
+    { id: 'dietary', title: 'Dietary', },
     { id: 'beverage', title: 'Beverage', },
     { id: 'inexpensive', title: 'Inexpensive', },
     { id: 'spicy', title: 'Spicy', },
@@ -41,12 +43,12 @@ const mapDocumentToRecipe = (doc: any): Recipe => ({
     $createdAt: doc.$createdAt,
 });
 
-export const fetchNewestRecipes = async (): Promise<Recipe[]> => {
+export const fetchNewestRecipes = async (limit: number = 25, offset: number = 0): Promise<Recipe[]> => {
     try {
         const newestRecipes = await database.listDocuments(
             dbConfig.db,
             dbConfig.collection.recipes,
-            [Query.orderDesc("$createdAt")]
+            [Query.orderDesc("$createdAt"), Query.limit(limit), Query.offset(offset)]
         );
 
         return newestRecipes.documents.map(mapDocumentToRecipe);
@@ -174,19 +176,8 @@ export const searchRecipes = async (
             ])
         ];
 
-        if (advance) {
-            const scoreQuery = Query.and([
-                Query.greaterThanEqual("score", lowScore),
-                Query.lessThanEqual("score", highScore)
-            ]);
-            queries.push(scoreQuery);
-
-            if (topics.length > 0) {
-                const topicQuery = Query.and(
-                    topics.map(topic => Query.contains("topics", [topic]))
-                );
-                queries.push(topicQuery);
-            }
+        if (advance && topics.length > 0) {
+            queries.push(Query.contains("topics", topics));
         }
 
         const response = await database.listDocuments(
@@ -195,9 +186,24 @@ export const searchRecipes = async (
             queries
         );
 
-        console.log('Result: ', response.documents);
+        let recipes = response.documents.map(mapDocumentToRecipe);
 
-        return response.documents.map(mapDocumentToRecipe);
+        if (advance) {
+            const filteredRecipes: Recipe[] = [];
+            for (const recipe of recipes) {
+                const score = await getRecipeScore(recipe.$id);
+                if (
+                    typeof score === 'number' &&
+                    score >= lowScore &&
+                    score <= highScore
+                ) {
+                    filteredRecipes.push(recipe);
+                }
+            }
+            recipes = filteredRecipes;
+        }
+
+        return recipes;
     }
     catch (error) {
         console.log(error);

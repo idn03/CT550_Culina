@@ -9,20 +9,19 @@ import SearchResult from './SearchResult';
 const WalkthroughableView = walkthroughable(View);
 
 const HomeScreen = () => {
-    const [query, setQuery] = useState<string>("");
-    const [lowScore, setLowScore] = useState(0);
-    const [highScore, setHighScore] = useState(8);
-    const [topics, setTopics] = useState<string[]>([]);
-    const [advance, setAdvance] = useState(false);
-
-    const handleSearch = (query: string, lowScore: number, highScore: number, topics: string[], advance: boolean) => {
-        setQuery(query);
-        setLowScore(lowScore);
-        setHighScore(highScore);
-        setTopics(topics);
-        setAdvance(advance);
-        console.log("User searched for: ", query, lowScore, highScore, topics, advance);
-    };
+    const [searchParams, setSearchParams] = useState<{
+        q: string;
+        ls: number;
+        hs: number;
+        t: string[];
+        a: boolean;
+    }>({
+        q: '',
+        ls: 0,
+        hs: 10,
+        t: [],
+        a: false,
+    });
 
     return (
         <View style={styles.container}>
@@ -44,12 +43,12 @@ const HomeScreen = () => {
                 name="Search Bar"
             >
                 <WalkthroughableView>
-                    <SearchBar onSearch={handleSearch} />
+                    <SearchBar onSearch={(q, ls, hs, t, a) => setSearchParams({ q, ls, hs, t, a })} />
                 </WalkthroughableView>
             </CopilotStep>
 
-            {query !== "" ?
-                <SearchResult q={query} ls={lowScore} hs={highScore} t={topics} a={advance} />
+            {searchParams.q !== "" ?
+                <SearchResult {...searchParams} />
                 :
                 <Newfeed />
             }

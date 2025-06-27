@@ -25,10 +25,10 @@ const SearchResult: React.FC<SearchResultProps> = ({ q, ls, hs, t, a }) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (q !== "" || t.length > 0) {
+        if (q !== "" || t.length > 0 || a) {
             searching();
         }
-    }, [q]);
+    }, [q, ls, hs, t, a]);
 
     const searching = async () => {
         setLoading(true);
@@ -50,10 +50,9 @@ const SearchResult: React.FC<SearchResultProps> = ({ q, ls, hs, t, a }) => {
                 <FlatList
                     data={recipes}
                     keyExtractor={(item) => item.$id}
-                    renderItem={({ item, index }) => {
+                    renderItem={({ item }) => {
                         return item.layout === "horizontal" ? (
                             <LayoutOnePost
-                                seq={index}
                                 recipeId={item.$id}
                                 author={item.author}
                                 datePost={item.$createdAt}
@@ -63,7 +62,6 @@ const SearchResult: React.FC<SearchResultProps> = ({ q, ls, hs, t, a }) => {
                             />
                         ) : (
                             <LayoutTwoPost
-                                seq={index}
                                 recipeId={item.$id}
                                 author={item.author}
                                 datePost={item.$createdAt}

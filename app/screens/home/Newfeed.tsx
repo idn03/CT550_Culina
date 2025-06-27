@@ -18,30 +18,50 @@ import { spacings } from '@utils/CulinaStyles';
 const WalkthroughableView = walkthroughable(View);
 
 const Newfeed = () => {
+    const flatListRef = useRef<FlatList>(null);
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [returnTop, setReturnTop] = useState(false);
-    const flatListRef = useRef<FlatList>(null);
+    const [offset, setOffset] = useState(0);
+    const [loadingMore, setLoadingMore] = useState(false);
     const { refresh } = useGlobalContext();
+    const LIMIT = 25;
 
-    const loadNewfeed = async () => {
+    const loadNewfeed = async (reset = false) => {
         setLoading(true);
 
+        if (loading || loadingMore) return;
+        if (reset) setOffset(0);
+        if (reset) setLoading(true);
+        else setLoadingMore(true);
+
         try {
-            const result = await fetchNewestRecipes();
-            setRecipes(result);
+            const result = await fetchNewestRecipes(LIMIT, reset ? 0 : offset);
+            setRecipes(reset ? result : [...recipes, ...result]);
+            setOffset((prev) => prev + result.length);
         } catch (error) {
             console.error("Error loading recipes:", error);
         }
-        setLoading(false);
+
+        if (reset) {
+            setLoading(false);
+        } else {
+            setLoadingMore(false);
+        }
     };
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
-        await loadNewfeed();
+        await loadNewfeed(true);
         setRefreshing(false);
     }, [refresh]);
+
+    const handleEndReached = () => {
+        if (!loadingMore && recipes.length >= LIMIT) {
+            loadNewfeed(false);
+        }
+    };
 
     const handleScroll = (event: any) => {
         const scrollPosition = event.nativeEvent.contentOffset.y;
@@ -55,7 +75,7 @@ const Newfeed = () => {
     };
 
     useEffect(() => {
-        loadNewfeed();
+        loadNewfeed(true);
     }, [refresh]);
 
     return (
@@ -105,6 +125,8 @@ const Newfeed = () => {
                                     style={{ marginTop: -20 }}
                                 />
                             }
+                            onEndReached={handleEndReached}
+                            onEndReachedThreshold={0.5}
                         />
                         {returnTop && (
                             <TouchableOpacity

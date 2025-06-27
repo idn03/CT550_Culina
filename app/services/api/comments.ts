@@ -6,7 +6,11 @@ import { Alert } from "react-native";
 const mapDocumentToComment = (doc: any): Comment => ({
     $id: doc.$id,
     content: doc.content,
-    author: doc.author,
+    author: {
+        $id: doc.accountId.$id || "",
+        fullname: doc.accountId.fullname || "",
+        avatar: doc.accountId.avatar || ""
+    },
     $createdAt: doc.$createdAt
 });
 
@@ -15,7 +19,7 @@ export const fetchCommentsInRecipe = async (recipeId: string): Promise<Comment[]
         const comments = await database.listDocuments(
             dbConfig.db,
             dbConfig.collection.comments,
-            [Query.orderDesc("$createdAt")]
+            [Query.orderDesc("$createdAt"), Query.equal("recipeId", recipeId)]
         );
 
         return comments.documents.map(mapDocumentToComment);
@@ -26,6 +30,22 @@ export const fetchCommentsInRecipe = async (recipeId: string): Promise<Comment[]
     }
 }
 
+export const fetchCurrentUserComments = async (userId: string): Promise<Comment[]> => {
+    try {
+        const comments = await database.listDocuments(
+            dbConfig.db,
+            dbConfig.collection.comments,
+            [Query.equal("userId", userId)]
+        );
+
+        return comments.documents.map(mapDocumentToComment);
+    }
+    catch (error) {
+        console.error(error);
+        return [];
+    }
+};
+
 export const createComment = async (commentData: CommentForm) => {
     try {
         const response = await database.createDocument(
@@ -34,12 +54,13 @@ export const createComment = async (commentData: CommentForm) => {
             ID.unique(),
             {
                 content: commentData.content,
-                userId: commentData.userId,
+                accountId: commentData.userId,
                 recipeId: commentData.recipeId
             }
         );
 
         console.log("Comment created successfully:", response);
+        Alert.alert("Success", "Comment created successfully!");
     }
     catch (error) {
         console.error(error);
