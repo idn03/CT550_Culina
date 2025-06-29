@@ -133,6 +133,31 @@ export const getTopRank = async (): Promise<UserAchievement[]> => {
     }
 };
 
+export const getCurrentRank = async () => {
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser) return null;
+
+        const response = await database.listDocuments(
+            dbConfig.db,
+            dbConfig.collection.users,
+            [Query.orderDesc('achievements')]
+        );
+
+        const rank = response.documents.findIndex(
+            (doc) => doc.$id === currentUser.$id
+        );
+
+        if (!response.documents || response.documents.length === 0) return null;
+
+        return rank !== -1 ? rank + 1 : null;
+    }
+    catch (error) {
+        console.error("Failed to get current rank:", error);
+        return null;
+    }
+}
+
 export const goalCheck = async () => {
     const result = [];
     try {

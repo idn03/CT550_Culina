@@ -3,6 +3,11 @@ import { Alert, Platform } from 'react-native';
 import { dbConfig, database, account } from './../appwrite';
 import { removeData, StorageKeys } from './asyncStorage';
 
+const defaultAvt = {
+    id: 'D_avatar',
+    url: 'https://fra.cloud.appwrite.io/v1/storage/buckets/67a6c19c003620a84cea/files/6860a6c8003a4cf1a919/view?project=67a34d78001b4d38331a&mode=admin'
+};
+
 export const createUser = async (email: string, password: string, fullname: string, gender: string, age: number) => {
     try {
         const newAccount = await account.create(ID.unique(), email, password);
@@ -20,7 +25,7 @@ export const createUser = async (email: string, password: string, fullname: stri
                 gender,
                 age,
                 slogan: '',
-                avatar: 'default_avatar.png',
+                avatar: defaultAvt.url,
             }
         );
 
