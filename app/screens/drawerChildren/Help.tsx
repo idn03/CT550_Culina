@@ -22,12 +22,12 @@ const HelpScreen = () => {
                         on it to view the recipe's details, and then rate or save it to your
                         personal account.
                     </NormalText>
-                    <Pressable onPress={() => {
+                    {/* <Pressable onPress={() => {
                         navigation.navigate;
                         start();
                     }}>
                         <TextBold>Take a Tour</TextBold>
-                    </Pressable>
+                    </Pressable> */}
 
                     <InriaTitle style={{ marginTop: 40 }}>Search Screen</InriaTitle>
                     <NormalText>

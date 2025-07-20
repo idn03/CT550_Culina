@@ -4,20 +4,28 @@ import { database, dbConfig } from "../appwrite";
 import { mapDocumentToRecipe } from "./recipes";
 import { Recipe } from "@/interfaces/recipe";
 import { API_BASE_URL } from "../axios";
+import { getCurrentUser } from "./auth";
 
-interface PrepareDatasetResponse {
+interface RecommendationResponse {
     status: string;
-    dataset: { recipeId: string; userId: string; rating: number }[];
+    recommendations: {
+        recipeId: string;
+        predictedRating: number;
+        confidence: number;
+    }[];
 }
 
 export const getTopPredict = async () => {
     try {
-        const res = await axios.get<PrepareDatasetResponse>(`${API_BASE_URL}/prepare-dataset`);
+        const currentUser = await getCurrentUser();
+        if (!currentUser) return [];
+
+        const res = await axios.get<RecommendationResponse>(`${API_BASE_URL}/load_model/${currentUser.$id}`);
         if (res.data.status !== "success") return [];
 
-        const sortedDataset = res.data.dataset.sort((a, b) => b.rating - a.rating);
+        const sortedRecommendations = res.data.recommendations.sort((a, b) => b.predictedRating - a.predictedRating);
 
-        const recipeIds = sortedDataset.map(item => item.recipeId);
+        const recipeIds = sortedRecommendations.map(item => item.recipeId);
         return recipeIds;
     } catch (err) {
         console.error(err);
@@ -39,7 +47,15 @@ export const getRecommendList = async (): Promise<Recipe[]> => {
 
         if (!response) return [];
 
-        return response.documents.map(mapDocumentToRecipe);
+        const recipeMap = new Map(recipes.map((id, index) => [id, index]));
+        
+        const sortedDocuments = response.documents.sort((a, b) => {
+            const indexA = recipeMap.get(a.$id) ?? 0;
+            const indexB = recipeMap.get(b.$id) ?? 0;
+            return indexA - indexB;
+        });
+
+        return sortedDocuments.map(mapDocumentToRecipe);
     }
     catch (error) {
         console.error(error);
