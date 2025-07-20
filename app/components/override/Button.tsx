@@ -1,6 +1,6 @@
 import React from 'react';
 import {Pressable, PressableProps, StyleSheet} from 'react-native';
-import TextBold from '@components/override/TextBold';
+import TextBold from './TextBold';
 import { spacings, shadow } from '@utils/CulinaStyles';
 
 interface SubmitButtonProps extends PressableProps {

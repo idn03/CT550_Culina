@@ -26,7 +26,7 @@ export const dummyTopics = [
     { id: 'kid-friendly', title: 'Kid Friendly', },
 ];
 
-const mapDocumentToRecipe = (doc: any): Recipe => ({
+export const mapDocumentToRecipe = (doc: any): Recipe => ({
     $id: doc.$id,
     title: doc.title,
     layout: doc.layout,
@@ -261,6 +261,45 @@ export const deleteRecipe = async (recipeId: string, navigation: any) => {
                 text: "OK",
                 onPress: async () => {
                     try {
+                        const comments = await database.listDocuments(
+                            dbConfig.db,
+                            dbConfig.collection.comments,
+                            [Query.equal('recipeId', recipeId)]
+                        );
+                        for (const comment of comments.documents) {
+                            await database.deleteDocument(
+                                dbConfig.db,
+                                dbConfig.collection.comments,
+                                comment.$id
+                            );
+                        }
+
+                        const ratings = await database.listDocuments(
+                            dbConfig.db,
+                            dbConfig.collection.ratingRecipe,
+                            [Query.equal('recipeId', recipeId)]
+                        );
+                        for (const rating of ratings.documents) {
+                            await database.deleteDocument(
+                                dbConfig.db,
+                                dbConfig.collection.ratingRecipe,
+                                rating.$id
+                            );
+                        }
+
+                        const savedRecipes = await database.listDocuments(
+                            dbConfig.db,
+                            dbConfig.collection.savedRecipes,
+                            [Query.equal('recipeId', recipeId)]
+                        );
+                        for (const saved of savedRecipes.documents) {
+                            await database.deleteDocument(
+                                dbConfig.db,
+                                dbConfig.collection.savedRecipes,
+                                saved.$id
+                            );
+                        }
+                        
                         await database.deleteDocument(
                             dbConfig.db,
                             dbConfig.collection.recipes,

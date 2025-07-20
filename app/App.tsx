@@ -4,6 +4,7 @@ import { LogBox } from 'react-native';
 import { CulinaFonts } from '@assets/index';
 import Router from '@navigate/Router';
 import GlobalProvider from '@utils/GlobalProvider';
+import { connectToAIServer } from './services/axios';
 
 LogBox.ignoreLogs(['TurboModuleRegistry']);
 
@@ -13,8 +14,17 @@ export default function App() {
 
     useEffect(() => {
         async function prepare() {
-            if (fontsLoaded) {
-                setAppIsReady(true);
+            try {
+                const isConnected = await connectToAIServer();
+                if (!isConnected) {
+                    console.error('Failed to connect to server');
+                    return;
+                }
+                if (fontsLoaded) {
+                    setAppIsReady(true);
+                }
+            } catch (error) {
+                console.error('Error during app preparation:', error);
             }
         }
         prepare();
@@ -24,7 +34,7 @@ export default function App() {
 
     return (
         <GlobalProvider>
-            <StatusBar style="dark"/>
+            <StatusBar style="dark" />
             <Router />
         </GlobalProvider>
     );

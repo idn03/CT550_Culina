@@ -26,6 +26,7 @@ export const createUser = async (email: string, password: string, fullname: stri
                 age,
                 slogan: '',
                 avatar: defaultAvt.url,
+                role: 'user'
             }
         );
 
