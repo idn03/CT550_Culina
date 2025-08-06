@@ -21,6 +21,7 @@ import {
     MenuTrigger
 } from 'react-native-popup-menu';
 import Feather from '@expo/vector-icons/Feather';
+import { MaterialIcons } from '@expo/vector-icons';
 import {
     Row,
     Avatar,
@@ -31,6 +32,7 @@ import {
     NormalText,
     TextBold
 } from '@/components';
+import ReportModal from './ReportModal';
 
 // Other
 import { deleteRecipe } from '@/services/api/recipes';
@@ -102,6 +104,7 @@ export const LayoutTwoDetail: React.FC<{
     const datePost = recipeData ? formatDate(recipeData.$createdAt) : '';
     const recipeId = recipeData.$id ? recipeData.$id : '';
     const { triggerRefresh } = useGlobalContext();
+    const [openModal, setOpenModal] = useState(false);
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
@@ -113,7 +116,7 @@ export const LayoutTwoDetail: React.FC<{
                         ...spacings.ph5
                     }}
                 >{recipeData.title}</KuraleTitle>
-                {isOwned && (
+                {isOwned ? (
                     <MenuProvider style={{ alignSelf: 'flex-end' }}>
                         <View style={[spacings.p5]}>
                             <Menu>
@@ -137,6 +140,13 @@ export const LayoutTwoDetail: React.FC<{
                             </Menu>
                         </View>
                     </MenuProvider>
+                ) : (
+                    <>
+                        <Pressable onPress={() => setOpenModal(true)}>
+                            <MaterialIcons name="report" size={28} color="#E78F81" style={spacings.mt2} />
+                        </Pressable>
+                        <ReportModal recipe={recipeData} visible={openModal} onClose={() => setOpenModal(false)} />
+                    </>
                 )}
             </Row>
 
@@ -190,7 +200,7 @@ export const LayoutTwoDetail: React.FC<{
 
 
                 <Line style={{ ...spacings.mh5 }} />
-                
+
                 {children}
             </View>
         </ScrollView>

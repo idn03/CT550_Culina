@@ -12,6 +12,7 @@ import {
     InriaTitle
 } from '@/components';
 import { getHistoryRating } from '@/services/api/history';
+import { fetchCurrentUserComments } from '@/services/api/comments';
 import { HistoryRating } from '@/interfaces/history';
 import { useGlobalContext } from '@/utils/GlobalProvider';
 import { spacings } from '@/utils/CulinaStyles';
@@ -19,6 +20,7 @@ import { spacings } from '@/utils/CulinaStyles';
 const HistoryScreen = () => {
     const [loading, setLoading] = useState(true);
     const [ratings, setRatings] = useState<HistoryRating[]>([]);
+    const [totalComments, setTotalComments] = useState(0);
     const [totalRatings, setTotalRatings] = useState(0);
     const { refresh } = useGlobalContext();
 
@@ -33,6 +35,9 @@ const HistoryScreen = () => {
             const historyRatings = await getHistoryRating();
             setRatings(historyRatings);
             setTotalRatings(historyRatings.length);
+
+            const comments = await fetchCurrentUserComments();
+            setTotalComments(comments.length);
         }
         catch (error) {
             console.error(error);
@@ -62,7 +67,7 @@ const HistoryScreen = () => {
                             <NormalText>Total Rating</NormalText>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <InriaTitle>0</InriaTitle>
+                            <InriaTitle>{totalComments.toString()}</InriaTitle>
                             <NormalText>Total Comments</NormalText>
                         </View>
                     </Row>

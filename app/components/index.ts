@@ -12,7 +12,6 @@ export { default as InputBar } from './reuse/InputBar';
 export { default as Line } from './reuse/Line';
 export { default as TopicTag } from './reuse/TopicTag';
 export { default as Avatar } from './reuse/Avatar';
-export { default as RecipePost } from './reuse/RecipePost';
 export { default as Author } from './reuse/Author';
 export { default as LayoutSelector } from './reuse/LayoutSelector';
 export { default as InputIngredients } from './reuse/InputIngredients';

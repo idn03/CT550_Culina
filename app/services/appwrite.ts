@@ -9,8 +9,9 @@ const dbConfig = {
         recipes: '67b6e2930002f4e5f9b0',
         savedRecipes: '67c43b690006a92ae6a1',
         ratingRecipe: '67b6e5b1000b0b19a159',
-        achievements: '67c43bd5000949bb8f96',
         comments: '68386edb00054a527cf8',
+        reports: '6891c1c30007857dce95',
+        tastes: '6891c1b200205c2cfefd'
     },
     storageId: '67a6c19c003620a84cea',
 };
@@ -19,7 +20,7 @@ const client = new Client()
     .setEndpoint(dbConfig.endpoint)
     .setProject(dbConfig.projectId)
     .setPlatform('culina.ios')
-;
+    ;
 
 const database = new Databases(client);
 

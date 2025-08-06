@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Culina 2",
-    "slug": "Culina 2",
-    "version": "2.0.0",
+    "name": "Culina",
+    "slug": "Culina",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./app/assets/mainlogo.png",
     "userInterfaceStyle": "light",
