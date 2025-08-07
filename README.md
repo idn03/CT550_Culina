@@ -1,6 +1,6 @@
 # Culina - v1.2.0
 
-The app integrates AI using the SVD model to deliver personalized recipe recommendations, trained on the Food.com dataset.
+This is a mobile app for sharing recipes. The app integrates AI using the SVD model to deliver personalized recipe recommendations, trained on the Food.com dataset.
 
 ## Features
 
