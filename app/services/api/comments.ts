@@ -2,6 +2,7 @@ import { Comment, CommentForm } from "@/interfaces/comments";
 import { database, dbConfig } from "../appwrite";
 import { ID, Query } from "react-native-appwrite";
 import { Alert } from "react-native";
+import { getCurrentUser } from "./auth";
 
 const mapDocumentToComment = (doc: any): Comment => ({
     $id: doc.$id,
@@ -30,15 +31,21 @@ export const fetchCommentsInRecipe = async (recipeId: string): Promise<Comment[]
     }
 }
 
-export const fetchCurrentUserComments = async (userId: string): Promise<Comment[]> => {
+export const fetchCurrentUserComments = async (): Promise<Comment[]> => {
     try {
-        const comments = await database.listDocuments(
-            dbConfig.db,
-            dbConfig.collection.comments,
-            [Query.equal("userId", userId)]
-        );
+        const user = await getCurrentUser();
 
-        return comments.documents.map(mapDocumentToComment);
+        if (user) {
+            const comments = await database.listDocuments(
+                dbConfig.db,
+                dbConfig.collection.comments,
+                [Query.equal("accountId", user.$id)]
+            );
+
+            return comments.documents.map(mapDocumentToComment);
+        }
+
+        return [];
     }
     catch (error) {
         console.error(error);
@@ -72,9 +79,9 @@ export const deleteComment = async (commentId: string) => {
         "Delete Comment",
         "Do you sure you want to delete this comment?",
         [
-            {text: "Cancel", style: 'cancel'},
+            { text: "Cancel", style: 'cancel' },
             {
-                text: "OK", 
+                text: "OK",
                 onPress: async () => {
                     try {
                         await database.deleteDocument(

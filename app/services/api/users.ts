@@ -3,6 +3,7 @@ import { database, dbConfig } from '../appwrite';
 import { getCurrentUser } from './auth';
 import { getRecipeScore } from './recipes';
 import { Profile } from '@interfaces/user';
+import { isEmail } from '@/utils/Helper';
 
 const mapDocumentToUser = (doc: any): Profile => ({
     $id: doc.$id,
@@ -153,3 +154,29 @@ export const getUserAverage = async () => {
         return 0;
     }
 }
+
+export const searchUser = async (query: string) => {
+    try {
+        if (isEmail(query)) {
+            const response = await database.listDocuments(
+                dbConfig.db,
+                dbConfig.collection.users,
+                [Query.equal("email", query)]
+            );
+
+            return response.documents.map(mapDocumentToUser);
+        }
+        else {
+            const response = await database.listDocuments(
+                dbConfig.db,
+                dbConfig.collection.users,
+                [Query.equal("fullname", query)]
+            );
+
+            return response.documents.map(mapDocumentToUser);
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
+};

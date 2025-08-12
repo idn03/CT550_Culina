@@ -10,7 +10,7 @@ import { LayoutOnePost } from '@screens/recipeLayout/LayoutOne';
 import { LayoutTwoPost } from '@screens/recipeLayout/LayoutTwo';
 
 // Other
-import { fetchNewestRecipes } from '@services/api/recipes';
+import { fetchNewfeed } from '@services/api/recipes';
 import { Recipe } from '@interfaces/recipe';
 import { useGlobalContext } from '@utils/GlobalProvider';
 import { spacings } from '@utils/CulinaStyles';
@@ -37,7 +37,7 @@ const Newfeed = () => {
         else setLoadingMore(true);
 
         try {
-            const result = await fetchNewestRecipes(LIMIT, reset ? 0 : offset);
+            const result = await fetchNewfeed(LIMIT, reset ? 0 : offset);
             setRecipes(reset ? result : [...recipes, ...result]);
             setOffset((prev) => prev + result.length);
         } catch (error) {

@@ -7,6 +7,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import BottomTabsNavigator from './BottomTabsNavigator';
+import TasteScreen from '@/screens/drawerChildren/tastes/Taste';
 import HistoryScreen from '@/screens/drawerChildren/history/History';
 import HelpScreen from '@screens/drawerChildren/Help';
 import AboutUsScreen from '@screens/drawerChildren/AboutUs';
@@ -36,7 +37,16 @@ const DrawerNavigator = () => {
 				component={BottomTabsNavigator}
 				options={{
 					drawerIcon: () => (
-						<Entypo name="book" size={24} color="#333" />
+						<Entypo name="book" size={20} color="#333" />
+					),
+				}}
+			/>
+			<Drawer.Screen
+				name="Taste"
+				component={TasteScreen}
+				options={{
+					drawerIcon: () => (
+						<FontAwesome name="sticky-note" size={20} color="#333" />
 					),
 				}}
 			/>
@@ -45,7 +55,7 @@ const DrawerNavigator = () => {
 				component={HistoryScreen}
 				options={{
 					drawerIcon: () => (
-						<MaterialIcons name="history" size={24} color="#333" />
+						<MaterialIcons name="history" size={20} color="#333" />
 					),
 				}}
 			/>
@@ -54,7 +64,7 @@ const DrawerNavigator = () => {
 				component={HelpScreen}
 				options={{
 					drawerIcon: () => (
-						<MaterialIcons name="help" size={24} color="#333" />
+						<MaterialIcons name="help" size={20} color="#333" />
 					),
 				}}
 			/>
@@ -63,7 +73,7 @@ const DrawerNavigator = () => {
 				component={AboutUsScreen}
 				options={{
 					drawerIcon: () => (
-						<FontAwesome name="lightbulb-o" size={24} color="#333" style={{ marginLeft: 4 }} />
+						<FontAwesome name="lightbulb-o" size={20} color="#333" style={{ marginLeft: 4 }} />
 					),
 				}}
 			/>

@@ -68,7 +68,7 @@ const LoginScreen = () => {
             }
             catch (error) {
                 Alert.alert('Login Failed', 'Account is incorrect!');
-                console.error(error);
+                console.log(error);
             }
             finally {
                 setLoading(false);
